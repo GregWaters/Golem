@@ -1,69 +1,44 @@
 #ifndef __UTILITY_HPP
 #define __UTILITY_HPP
 
-// Begin operating system macro definition
-#if defined(__linux__)
-#define OS_LINUX
-#include "unistd.h"
-
-#elif defined (_WIN32) || defined(__WIN32__) || defined(__WIN32) || defined(WIN32) || defined(__WIN64) || defined(__WIN64__)
-#define OS_WINDOWS
-#include "windows.h"
-
-#elif defined(__APPLE__) || defined(macintosh) || defined(Macintosh)
-#define OS_MAC
-#error "Mac is not yet supported"
-
-#else
-
-#error "Your operating system is not yet supported"
-
-#endif
-// End operating system macro definition
-
 #include <cstdlib>
 
-typedef unsigned long long size_t;
-namespace utility
+typedef unsigned long long size_type;
+
+template <typename T, typename size_type = size_t>
+class dynamic_container // This class is a base for others to be inherited from
 {
+protected:
+    size_type m_size = 0;
+    size_type m_capacity = 1;
+    T* m_internal = static_cast<T*>(malloc(0));
 
-// This class is a base for others to be inherited from
-
-// TODO: overload [] operator for index access
-    template <typename T>
-    class dynamic_container
+    void expand_if_needed(size_type count)
     {
-    private:
-        size_t m_size = 0;
-        size_t m_capacity = 0;
-        T* m_internal = static_cast<T*>(malloc(0));
-
-        void expand_if_needed()
+        m_size += count;
+        if (m_size < m_capacity)
         {
-            if (m_size < m_capacity)
-            {
-                m_capacity <<= 1;
-                m_internal = static_cast<T*>(realloc(m_internal, sizeof(T) * m_capacity));
-            }
+            m_capacity <<= 1;
+            m_internal = static_cast<T*>(realloc(m_internal, sizeof(T) * m_capacity));
         }
+    }
 
-    public:
-        size_t size() const
-        {
-            return m_size;
-        }
+    size_type size() const
+    {
+        return m_size;
+    }
 
-        void append(const T& element)
-        {
-            ++m_size;
-            expand_if_needed();
+    void resize(size_type new_size)
+    {
+        m_size = new_size;
+    }
 
-            m_internal[m_size] = element;
-        }
+    void shrink_to_fit()
+    {
+        m_capacity = m_size;
+    }
+};
 
-
-    };
-}
 
 #endif // __UTILITY_HPP
 

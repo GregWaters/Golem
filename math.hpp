@@ -4,19 +4,19 @@
 // Generic math library, balanced between speed and precision
 
 template <typename T>
-constexpr T abs(T value)
+constexpr T abs(const T value)
 {
     return (value > 0) ? value : -value;
 }
 
 template <typename T>
-constexpr T& max(T& t1, T& t2)
+constexpr T& max(const T& t1, const T& t2)
 {
     return (t1 > t2) ? t1 : t2;
 }
 
 template <typename T>
-constexpr T& min(T& t1, T& t2)
+constexpr T& min(const T& t1, const T& t2)
 {
     return (t1 < t2) ? t1 : t2;
 }

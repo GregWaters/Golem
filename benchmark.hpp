@@ -22,7 +22,7 @@ namespace bench
 
         double elapsed() const
         {
-            return std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - m_beg).count();
+            return std::chrono::duration_cast<std::chrono::microsecond>(Clock::now() - m_beg).count();
         }
     };
 

@@ -7,7 +7,7 @@
 #include <cstring>
 #include <cstdio>
 
-static void output(const size_t bytes, const char* str)
+inline void output(const size_t bytes, const char* str)
 {
     #if defined(OS_WINDOWS)
     WriteConsole(GetStdHandle(STD_OUTPUT_HANDLE), str, bytes, 0, 0);

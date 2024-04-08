@@ -24,7 +24,6 @@ TLDR: Print is a function that internally converts things to strings, appends th
 A fairly simple module, currently consisting of only one class; the `timer`. This allows for simple benchmarks that are accurate down to the microsecond. While the class is primarily used for benchmarking and debugging, it can very easily
 be used in production code as a high-resolution clock (from the standard library `chrono`) without the boilerplate.
 
-
 (Most of this is TODO)
 
 # The `input` Module
@@ -49,6 +48,8 @@ Mainly for internal use. This will contain the contiguous allocator: a deadly we
 
 # The `utility` module
 
-Mainly for internal use. This holds the base dynamic container that will serve as a basis for all other dynamic containers. 
+Mainly for internal use. This holds the base dynamic container that will serve as a basis for all other dynamic containers. It also provides preprocessor macros (see `OS_WINDOWS`, `OS_LINUX`, and `OS_MAC`) to determine the user's operating system and change the code accordingly.
 
+# The `endian` module
 
+If you do networking, you will already understand why this is here. This is an incredibly simple module that consists of only two functions that return true/false depending on your byte-ordering: `big()` and `little()`. They take no parameters and are both entirely constexpr. Eventually, this will be merged into a `system` module that contains system information and command functions.

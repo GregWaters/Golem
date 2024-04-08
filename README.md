@@ -21,6 +21,10 @@ we can minimize unneeded calls to the kernel and allow for expansion for develop
 
 TLDR: Print is a function that internally converts things to strings, appends them to each other, and makes one call to print them to stdout.
 
+# The `console` Module
+
+This module is for all things console-related, so it implies the input/output modules as dependencies. 
+
 # The `benchmark` Module
 
 A fairly simple module, currently consisting of only one class; the `timer`. This allows for simple benchmarks that are accurate down to the microsecond. While the class is primarily used for benchmarking and debugging, it can very easily

@@ -2,7 +2,9 @@
 
 Golem is a set of highly specialized functions, algorithms, and containers. The one repeated notion in this project is that there is no point in sacrificing speed for abstraction that is needed to create a highly optimized, yet *readable* project.
 This collection of headers will aid in solving problems before they appear. Each module (or header) has its own highly specialized use-case, where it should not just be used for convenience, but whenever it is possible to do so.
-Here is an overview of the abstract use-cases of individual modules, and the problems that they solve. Oh, and everything that *can* be `constexpr`, ***is*** `constexpr`.
+Here is an overview of the abstract use-cases of individual modules, and the problems that they solve. Oh, and everything that *can* be `constexpr`, ***is*** `constexpr`.  
+
+There is a very small chance that this project evolves into its own separate language if it is decided that it would be worth the immense effort.
 
 # The `string` Module
 
@@ -48,8 +50,8 @@ Mainly for internal use. This will contain the contiguous allocator: a deadly we
 
 # The `utility` module
 
-Mainly for internal use. This holds the base dynamic container that will serve as a basis for all other dynamic containers. It also provides preprocessor macros (see `OS_WINDOWS`, `OS_LINUX`, and `OS_MAC`) to determine the user's operating system and change the code accordingly.
+Mainly for internal use. This holds the base dynamic container that will serve as a basis for all other dynamic containers.
 
-# The `endian` module
+# The `system` module
 
-If you do networking, you will already understand why this is here. This is an incredibly simple module that consists of only two functions that return true/false depending on your byte-ordering: `big()` and `little()`. They take no parameters and are both entirely constexpr. Eventually, this will be merged into a `system` module that contains system information and command functions.
+The operating system macros and endian functions have been moved to this module, for general system-dependent things. It provides preprocessor macros (see `OS_WINDOWS`, `OS_LINUX`, and `OS_MAC`) to determine the user's operating system and change the code accordingly.

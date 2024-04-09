@@ -4,3 +4,9 @@
 # Executable files
 *.out
 *.exe
+
+# Visual Studio Code files
+.vscode/*
+
+# This won't be changing for a while lol
+LICENSE

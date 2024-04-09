@@ -3,13 +3,18 @@
 
 namespace fast
 {
-    float sqrt(float operand)
+    /// @brief Fast calculation of square root
+    /// @param operand 
+    /// @return Square root of operand
+    constexpr float sqrt(float operand)
     {
 
     }
 
-
-    float invsqrt(float operand)
+    /// @brief Fast calculation of inverse square root
+    /// @param operand 
+    /// @return Inverse square root of operand
+    constexpr float invsqrt(float operand)
     {
 
     }

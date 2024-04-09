@@ -72,6 +72,16 @@ constexpr bool ispunct(char c)
     return (c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c >= '[' && c <= '`') || (c >= '{' && c <= '~');
 }
 
+constexpr char tolower(char c)
+{
+    return (c >= 'A' && c <= 'Z') ? c + 32 : c;
+}
+
+constexpr char toupper(char c)
+{
+    return (c >= 'a' && c <= 'z') ? c - 32 : c;
+}
+
 // Wide-character functions [TODO]
 
 // If we're able to simply overload the previous functions, use the following snippet.
@@ -94,7 +104,7 @@ constexpr bool tolower(wchar_t c);
 constexpr bool toupper(wchar_t c);
 */
 
-constexpr bool iswalnum(wchar_t c);
+constexpr char iswalnum(wchar_t c);
 constexpr bool iswalpha(wchar_t c);
 constexpr bool iswlower(wchar_t c);
 constexpr bool iswupper(wchar_t c);

@@ -12,11 +12,14 @@ namespace bench
         std::chrono::time_point<Clock> m_beg = Clock::now();
 
     public:
+        /// @brief Reset elapsed time
         void reset()
         {
             m_beg = Clock::now();
         }
 
+        /// @brief Get elapsed time
+        /// @return Microseconds since last reset as a double-precision float
         double elapsed() const
         {
             return std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - m_beg).count();

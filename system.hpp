@@ -20,36 +20,4 @@
 #endif
 // End operating system macro definition
 
-#include <cstdint>
-
-namespace sys
-{
-    // For information on why these two functions work, see en.wikipedia.org/wiki/Endianness#/media/File:32bit-Endianess.svg
-
-    [[nodiscard]]
-    constexpr bool big_endian()
-    {
-        union
-        {
-            uint32_t i;
-            char as_str[4];
-        } bytes = {0x0A'0B'0C'0D};
-
-        return bytes.as_str[0] == 0x0A;
-    }
-
-    [[nodiscard]]
-    constexpr bool little_endian()
-    {
-        union
-        {
-            uint32_t i;
-            char as_str[4];
-        } bytes = {0x0A'0B'0C'0D};
-
-        return bytes.as_str[0] == 0x0D;
-    }
-}
-
-
-#endif // __SYSTEM_HPP
+#endif //__SYSTEM_HPP

@@ -1,13 +1,14 @@
 #ifndef __MEMORY_HPP
 #define __MEMORY_HPP
 
-namespace memory
+namespace mem
 {
-    constexpr HEAP_MIN_SIZE = 32 * 1024;
-
-    void* contiguous_allocator()
+    /// @brief Allocate `n` bytes in contiguous memory
+    /// @param n
+    /// @return Pointer to beginning of arena
+    void* make_arena(unsigned long long n)
     {
-        auto heap_max = []() { return }
+        
     }
 }
 

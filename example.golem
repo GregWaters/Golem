@@ -1,0 +1,5 @@
+int main()
+{
+    // Number way too high to store in an integer, implicitly convert it to a bigint
+    int i = 1000000000000000000000
+}

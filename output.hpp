@@ -6,33 +6,34 @@
 #include <cstdio>
 #include <cstring>
 #include <unistd.h>
+#include <string>
 
 #include "system.hpp"
 
-inline void output(const size_t bytes, const char* str)
+inline int output(const size_t bytes, const char* str)
 {
     #if defined(OS_WINDOWS)
-    WriteConsole(GetStdHandle(STD_OUTPUT_HANDLE), str, bytes, 0, 0);
+    return WriteConsole(GetStdHandle(STD_OUTPUT_HANDLE), str, bytes, 0, 0);
 
     #elif defined(OS_LINUX)
-    // TODO: Silence warning about unused return value by throwing exceptions based on the retval
-    write(STDOUT_FILENO, str, bytes);
+    return write(STDOUT_FILENO, str, bytes)
 
     #endif
 }
 
-void print(const char c)
+// Recursive variadic print function
+template <typename... args>
+inline void print(args... elements)
 {
-    output(1, &c);
-}
+    std::string str;
+    for (const auto p : {elements...})
+        str += std::to_string(p);
 
-void print(const char* str)
-{
-    output(std::strlen(str), str);
+    output(str.size(), str.c_str());
 }
 
 template <typename T>
-inline void println(const T value)
+inline void println(const T value) // Check if this is valid
 {
     print(value);
     print('\n');

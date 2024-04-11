@@ -1,18 +1,18 @@
 #ifndef __CONSOLE_HPP
 #define __CONSOLE_HPP
 
-#include "input.hpp"
-#include "output.hpp"
+#include "system.hpp"
+#include <cstdio>
 
 namespace console
 {
-    void clear()
+    inline bool clear()
     {
         #if defined(OS_WINDOWS)
-        print("\033[2J");
+        return WriteConsole(GetStdHandle(STD_OUTPUT_HANDLE), "\033[2J", 4, 0, 0);
 
         #elif defined(OS_LINUX)
-        print("\033[1;1H\e[2J");
+        return (write(1, "\033[1;1H\e[2J", 10) != -1);
 
         #endif
     }

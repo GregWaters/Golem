@@ -2,16 +2,15 @@
 #define __UTILITY_HPP
 
 #include <cstdlib>
+#include <memory>
 
-typedef unsigned long long size_type;
-
-template <typename T, typename size_type = size_t>
+template <typename T>
 class dynamic_container // This class is a base for others to be inherited from
 {
 protected:
-    size_type m_size = 0;
-    size_type m_capacity = 1;
-    T* m_internal = static_cast<T*>(malloc(0));
+    size_t m_size = 0;
+    size_t m_capacity = 1;
+    T* m_internal = 
 
     void expand_if_needed(size_type count)
     {

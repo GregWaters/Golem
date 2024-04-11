@@ -6,7 +6,7 @@
 *.exe
 
 # Visual Studio Code files
-.vscode/*
+.vscode/
 
 # This won't be changing for a while lol
 LICENSE

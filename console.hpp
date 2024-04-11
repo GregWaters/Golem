@@ -2,7 +2,6 @@
 #define __CONSOLE_HPP
 
 #include "system.hpp"
-#include <cstdio>
 
 namespace console
 {
@@ -11,7 +10,7 @@ namespace console
         #if defined(OS_WINDOWS)
         return WriteConsole(GetStdHandle(STD_OUTPUT_HANDLE), "\033[2J", 4, 0, 0);
 
-        #elif defined(OS_LINUX)
+        #elif defined(OS_LINUX) || defined(OS_MAC)
         return (write(1, "\033[1;1H\e[2J", 10) != -1);
 
         #endif

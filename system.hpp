@@ -12,8 +12,8 @@
 
 #elif defined(__APPLE__) || defined(macintosh) || defined(Macintosh)
     #define OS_MAC
-    #error "Mac is not yet supported"
-
+    #include "unistd.h"
+    
 #else
     #error "Your operating system is not yet supported"
 

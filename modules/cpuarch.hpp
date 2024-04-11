@@ -1,3 +1,6 @@
+#ifndef __CPUARCH_HPP
+#define __CPUARCH_HPP
+
 namespace cpu
 {
     enum class arch
@@ -72,3 +75,5 @@ namespace cpu
         #endif
     }
 }
+
+#endif // __CPUARCH_HPP

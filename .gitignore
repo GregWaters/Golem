@@ -10,3 +10,6 @@
 
 # This won't be changing for a while lol
 LICENSE
+
+# Our language source files
+*.glm

@@ -13,3 +13,5 @@ LICENSE
 
 # Our language source files
 *.glm
+
+test/

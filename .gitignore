@@ -1,6 +1,3 @@
-# source files
-*.cpp
-
 # Executable files
 *.out
 *.exe

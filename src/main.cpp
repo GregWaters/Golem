@@ -5,5 +5,5 @@
 
 int main()
 {
-    file_tokenizer tokenizer;
+    
 }

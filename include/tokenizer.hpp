@@ -59,27 +59,35 @@ class file_tokenizer
         //////////////////
         CLASS,          // Keyword used to define a class
         ELSE,           // Control-flow 'else' statement
-        FALSE,          // (bool) 0
+        FALSE,          // Boolean type meaning 0
         FOR,            // Beginning of for-loop block
         IF,             // If-statement keyword
         RETURN,         // Return keyword used to return values from functions
         THIS,           // 'this' pointer; used to access the current object from within a class
-        TRUE,           // (bool) 1
-        WHILE,          // Beginning of while-loop block
+        TRUE,           // Boolean type meaning 1
+        WHILE,          // While-loop keyword
+        MODULE,         // Use outside code in current source file
         //////////////////
 
-    }
+        // Qualifiers
+        //////////////////
+        DYNAMIC,        // Variable qualifier that allows it to automatically claim memory when its limits are reached
+        CONST,          // Makes a variable immutable (gives a compile-time error when an assignment is attempted)
+        //////////////////
+    };
 
     // File to read from
     std::fstream file;
 
     file_tokenizer(std::string_view filename)
     {
-        file.open(filename, std::fstream::in);
+        file.open(filename.data(), std::fstream::in);
     }
 
     std::vector<token> get_all_tokens()
     {
         std::vector<token> tokens;
+
+        return tokens;
     }
 };

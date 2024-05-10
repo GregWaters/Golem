@@ -1,7 +1,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-#include "tokenizer.hpp"
+#include "tokenize.hpp"
 
 int main()
 {

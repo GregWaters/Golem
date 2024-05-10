@@ -21,7 +21,16 @@ enum class token
     POWER,          // **
     SLASH,          // /
     MODULO,         // %
-    RANGE,          // ..
+    RANGE,          // :
+    //////////////////
+    // Bitwise Arithmetic
+    //////////////////
+    BITAND,         // &
+    BITOR,          // |
+    XOR,            // ^
+    LSHIFT,         // <<
+    RSHIFT,         // >>
+    BITNOT          // ~
     //////////////////
     // Other
     //////////////////
@@ -38,6 +47,8 @@ enum class token
     NOT_EQUAL,      // !=
     EQUALS,         // =
     IS_EQUAL,       // ==
+    AND,            // &&
+    OR,             // ||
     GREATER,        // >
     GREATER_EQUAL,  // >=
     LESS,           // <

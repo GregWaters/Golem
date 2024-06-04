@@ -29,7 +29,7 @@ Types can be defined with the `type` keyword. Although the syntax is very simila
 
 Listed below is the standard syntax for declaring variables with their respective types
 (while these are all primitive types, equivalent declarations are above in comments):
-```
+```java
 # int<LONGSIZE>
 int n { 5 }
 
@@ -40,7 +40,7 @@ bool we_there_yet { false }
 byte bitmask { 0b10101010 } # support for binary literals!
 
 # type word { uint<WORDSIZE> }
-word word_max { (2 ** WORDSIZE) - 1  }
+word word_max { (word) -1  }
 
 # (No equivalent definition)
 byte arr<4> { 1, 3, 3, 7 }
@@ -52,11 +52,11 @@ str hello { "Hello, world!" } # an array of 14 bytes (including the implicit nul
 # Representing data
 Data can be represented in many ways, but most data is held between braces (`{}`). There are many built-in features to better represent data.
 For example, lets say you need define a type that holds some data, such as an ipv4 address. So, of course, you define a type so nobody gets it mixed up in linear algebra functions like so
-```
+```java
 type ipv4_addr { uint<32> }
 ```
 However, this presents an issue. You assign the value 2147483649 to the address and none of your poor co-workers have any idea what that means. However, you went to Golem school, so you clearly know what to do next. You face your co-workers and say, *fear not, for data is part of the design of this language*, and hastily redefine the variable as a graceful cast to a(n implicitly 4-element) byte array that holds the *exact same data* in a *different, more readable format!*
-```
+```java
 ipv4_addr loopback { (byte arr) {127, 0, 0, 1} }
 ```
 As you can see, this casts an array of standard 32-bit integers to a literal array of bytes with implied size (8-bit integers). Then, the initialization occurs and the variable reads 32 bits into the array literal, finding the data we entered exactly as planned.
@@ -67,7 +67,7 @@ We want the compiler to know exactly as much about our program as we do. Golem h
 as I believe there's lessons to learn there even if you don't care for the whole functional death-cult thing.
 
 Let's say you're defining a function named `square` that takes a type as input and returns its value times itself. This is quite trivial and can be defined as
-```
+```java
 square(int x) -> int
 {
     return x * x
@@ -75,7 +75,7 @@ square(int x) -> int
 ```
 And that's perfectly fine, but what if we wanted to tell the compiler that this function is entirely stateless? The answer, of course, is the explosive power of *attributes*.
 With one line of code, we can avoid several redundant lines of machine code (you can't see this, but it's there I promise :)
-```
+```java
 @pure @inline
 square(int x) -> int
 {
@@ -98,16 +98,16 @@ Each function implicitly keeps track of the registers it clobbers to decide whet
 Additionally, when working with operating-system specific code, you have the choice to use direct system calls instead of API calls.
 
 Furthermore, *all* register values are kept track of and can use processor-specific code when possible.
-For example, if the `EAX` register needs to be set to `VALUE`, here's some pseudocode that shows the compiler's thinking.
-```
-if EAX == VALUE:
-    encode(NULL)
-elif EAX == (VALUE - 1):
-    encode(INC EAX)
-elif EAX == (VALUE + 1):
-    encode(DEC EAX)
-else:
-    encode(MOV EAX, VALUE)
+For example, if the `EAX` register needs to be set to `VALUE`, here's some C code that shows the compiler's thinking.
+```c
+if (EAX == VALUE)
+    encode(NULL);
+else if (EAX == (VALUE - 1))
+    encode(INC EAX);
+else if (EAX == (VALUE + 1))
+    encode(DEC EAX);
+else
+    encode(MOV EAX, VALUE);
 ```
 
 # To be added?

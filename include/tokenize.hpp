@@ -2,7 +2,7 @@
 #include <vector>
 
 // Declaration of token type
-class token
+struct token
 {
     enum class description
     {
@@ -40,7 +40,7 @@ class token
         DOT           , // .
         TILDE         , // ~
         AT            , // @
-        COMMENT       , // #
+        HASHTAG       , // #
         SCOPE         , // ::
         ARROW         , // ->
         //////////////////
@@ -83,25 +83,31 @@ class token
         DYNAMIC       , // Variable qualifier that allows it to automatically claim memory when its limits are reached
         CONST         , // Makes a variable immutable (gives a compile-time error when an assignment is attempted)
         //////////////////
+        // Other
+        //////////////////
+        INVALID       , //
+        //////////////////
     };
 
+    char* data; // char pointer to the beginning of the data the value was extracted from
+    void* value; // void pointer to underlying value
+    size_t value_len;
     description desc;
-    std::string_view str;
 };
 
-std::vector<token> get_all_tokens(std::string_view str)
+std::vector<token> to_tokens(std::string_view str)
 {
     std::vector<token> tokens;
-    tokens.reserve(8); // "There will probably be around 8 tokens per line" Heuristic optimization
+    tokens.reserve(256); // Heuristic optimization to avoid (8) redundant allocations
 
-    for (unsigned i = 0; i < str.length(); ++i)
+    size_t i = 0;
+    while (i < str.length())
     {
-        switch (expression)
+        token current_token;
+        if (isdigit(str[i]))
         {
-        case 
-        
-        default:
-            break;
+            current_token.data = str.data() + i;
+            
         }
     }
 

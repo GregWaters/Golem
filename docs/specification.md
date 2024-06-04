@@ -5,8 +5,21 @@
 The largest part of learning a language is how it will help you make what you want to make.
 Golem has been designed from the ground up to benefit all kinds of programmers. Unless you do web-dev, but you did that to yourself.
 
-
 Golem got its name while I was trying to think of a creature that embodies all the things I want the language to be; ***solid, stable, and simple.***
+
+# Philosophy
+> *Make it work, then make it right.*
+
+It's easy to make a working product in Golem, but if you want to make it *right*,
+you are encouraged to tune your code like a piano until it's something you can truly be proud of.
+
+> *Don't do anything at runtime that can be done at compile-time*
+
+Because Golem is compiled, we can employ truly lossless abstraction techniques to remove ambiguity in code (see "Representing Data" below).
+Things like code compression in Javascript or Python bytecode compilation and subsequent interpretation aren't things you have to worry about.
+This means that we can fully analyze the code from all angles to see the best way to generate code for the processor.
+Of course, this has its limits. For instance, we don't want to inline every function call as that would massively bloat the resulting machine code (see C++ methods),
+nor would we want to statically link everything for the sake of performance (see Golang).
 
 # Comments
 All comments are denoted with the `#` symbol, and last for the rest of the line.
@@ -49,7 +62,7 @@ byte arr<4> { 1, 3, 3, 7 }
 str hello { "Hello, world!" } # an array of 14 bytes (including the implicit null-terminator)
 ```
 
-# Representing data
+# Representing Data
 Data can be represented in many ways, but most data is held between braces (`{}`). There are many built-in features to better represent data.
 For example, lets say you need define a type that holds some data, such as an ipv4 address. So, of course, you define a type so nobody gets it mixed up in linear algebra functions like so
 ```java
@@ -87,7 +100,7 @@ square(int x) -> int
 This allows for each call to be optimized to fit the current use (for example, if one parameter is a constant value, the function doesn't have to treat it as unknown),
 but be aware that your code size may greatly increase if you apply this attribute to large functions!
 
-# Integer arithmetic
+# Integer Arithmetic
 
 Working with integers is similar to how C deals with integers. The arithmetic type is the left operand and the right operand is casted to the given arithmetic type to get the resulting value.
 This will later be expanded upon more in detail.
@@ -110,7 +123,7 @@ else
     encode("MOV EAX, VALUE");
 ```
 
-# To be added?
+# TBA?
 There's *much* to be decided on here. I want to avoid making all the decisions myself,
 because I'd much prefer if this language was molded in part by the people who will eventually use it.
 That means that all suggestions will be weighed against each other to get the *best possible* result.

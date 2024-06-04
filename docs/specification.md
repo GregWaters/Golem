@@ -100,12 +100,37 @@ square(int x) -> int
 This allows for each call to be optimized to fit the current use (for example, if one parameter is a constant value, the function doesn't have to treat it as unknown),
 but be aware that your code size may greatly increase if you apply this attribute to large functions!
 
-# Integer Arithmetic
+Attributes can also be applied to variables, like `@view` as shown below.
 
-Working with integers is similar to how C deals with integers. The arithmetic type is the left operand and the right operand is casted to the given arithmetic type to get the resulting value.
-This will later be expanded upon more in detail.
+# Views (Representing Data continued)
+In Golem, a constant is referred to as a **view**. I chose this name because I feel it draws a good parallel to reality in that you are merely 'seeing' this value, and it is not mutable in any way.
+However, just as normal, you can assign variables to constant values and mutate the copy. To make an ordinary variable a view, add the `@view` attribute to a variable on initialization.
 
-# Keeping track of everything (advanced and boring topic)
+This feature is expanded upon through direct support for embedded files within an executable. Think of it as C and C++'s `#include` directive, but for assembly code.
+All embedded files can be accessed through a pointer to the first byte of data. If a file that should be embedded is empty or does not exist, that will give a warning to the programmer.
+Embedded files have two parts, `file.start` and `file.end`. Both of these return constant pointers to the start and end of the file's representation, respectively.
+This makes iteration and scanning simple, because you can deduce the size and iteration is as simple as `for (byte data in range(file.start, file.end) { DO STUFF }`
+
+# Modules
+Golem will hopefully be the first to implement a working module system instead of the preprocessor copy-paste system that C and C++ programmers are familiar with.
+Modules are a way to include outside function definitions without the overhead of opening, reading, and writing to several files.
+And better yet, you can build in a defense against conflicting identifiers using the `as` keyword.
+This is something I commend the Python ecosystem for endorsing, as it doesn't just make ***writing*** libraries easier, it makes ***using*** libraries easier.
+
+The exact syntax for this is still up in the air, as I don't want to completely redo the Python syntax.
+However, I believe that a great way to streamline the process would be using C++'s *scope resolution* syntax.
+For example,
+```cpp
+# 'search for functions in the 'math' namespace within this file'
+include mathematical_calculation_library.glh as math
+
+main() -> int
+{
+    return math::sqrt(3.141592653)
+}
+```
+
+# Keeping track of everything (advanced and boring topic, may not even be added)
 Golem uses its own, optional calling convention, that's not even a convention in itself.
 Each function implicitly keeps track of the registers it clobbers to decide whether or not registers need to be pushed to the stack beforehand.
 Additionally, when working with operating-system specific code, you have the choice to use direct system calls instead of API calls.
@@ -122,6 +147,10 @@ else if (EAX == (VALUE + 1))
 else
     encode("MOV EAX, VALUE");
 ```
+
+# Assembly information
+Some of the features are inspired by the Netwide Assembler, which I work in often for needlessly-low-level programming.
+As it stands, it may be the assembler of choice in my personal implementation of this language draft.
 
 # TBA?
 There's *much* to be decided on here. I want to avoid making all the decisions myself,

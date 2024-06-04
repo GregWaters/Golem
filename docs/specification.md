@@ -112,4 +112,7 @@ else
 
 # To be added?
 There's *much* to be decided on here. I want to avoid making all the decisions myself,
-because I have only lived through my experiences and have not faced some issues you may have faced while using a low-level language like Golem.
+because I'd much prefer if this language was molded in part by the people who will eventually use it.
+That means that all suggestions will be weighed against each other to get the *best possible* result.
+
+Happy coding!

@@ -25,16 +25,28 @@ but also specifiers that are *smaller*, you give a hint to the compiler that thi
 Bit specifiers should be passed as unsigned integers. The maximum value is at least 512. Bit specifiers can only be powers of 2.
 If a bit-specifier does not meet these requirements, the compiler should throw an error.
 
-Types can be defined with the `type` keyword, similar to variables in syntax.
+Types can be defined with the `type` keyword. Although the syntax is very similar to a standard variable, it should be noted that it holds *identifiers* in your program, not standard values.
 
-Standard type syntax:
+Listed below is the standard syntax for declaring variables with their respective types
+(while these are all primitive types, equivalent declarations are above in comments):
 ```
+# int<LONGSIZE>
+int n { 5 }
+
+# type bool { uint<1> }
 bool we_there_yet { false }
-byte bitmask { 0b10101010 } # type byte { uint<8> }
-word # type word { uint<WORDSIZE> }
-int  # int<LONGSIZE>
-byte arr<4> { 1, 3, 3, 7 } # a 4-element byte array -- can be declared with any type, including the array type itself.
-str hello { "Hello, world!" } # an array of 14 bytes (including the implicit null-terminator) 
+
+# type byte { uint<8> }
+byte bitmask { 0b10101010 } # support for binary literals!
+
+# type word { uint<WORDSIZE> }
+word word_max { (2 ** WORDSIZE) - 1  }
+
+# (No equivalent definition)
+byte arr<4> { 1, 3, 3, 7 }
+
+# type str { byte arr }
+str hello { "Hello, world!" } # an array of 14 bytes (including the implicit null-terminator)
 ```
 
 # Representing data
@@ -43,7 +55,7 @@ For example, lets say you need define a type that holds some data, such as an ip
 ```
 type ipv4_addr { uint<32> }
 ```
-However, this presents an issue. You assign the value 2147483649 to the address and none of your poor co-workers have any idea what that means. However, you went to Golem school, so you clearly know what to do next. You face your co-workers and say, *fear not, for data is part of the design of this language*, and hastily redefine the variable as a graceful cast to a 4-element byte array that holds the *exact same data* in a *different, more readable format!*
+However, this presents an issue. You assign the value 2147483649 to the address and none of your poor co-workers have any idea what that means. However, you went to Golem school, so you clearly know what to do next. You face your co-workers and say, *fear not, for data is part of the design of this language*, and hastily redefine the variable as a graceful cast to a(n implicitly 4-element) byte array that holds the *exact same data* in a *different, more readable format!*
 ```
 ipv4_addr loopback { (byte arr) {127, 0, 0, 1} }
 ```
@@ -51,9 +63,10 @@ As you can see, this casts an array of standard 32-bit integers to a literal arr
 
 # Attributes
 Attributes are possibly the most important part of the language specification. They apply to functions, variables, types, and pretty much anything.
-We want the compiler to know exactly as much about our program as we do. Golem has some of its roots in more functional languages, as I believe there's lessons to learn there even if you don't care for the whole functional death-cult thing. 
+We want the compiler to know exactly as much about our program as we do. Golem has some of its roots in more functional languages,
+as I believe there's lessons to learn there even if you don't care for the whole functional death-cult thing.
 
-Say you're defining a function named `square` that takes a type as input and returns its value times itself. This is so simple it can be defined as
+Let's say you're defining a function named `square` that takes a type as input and returns its value times itself. This is quite trivial and can be defined as
 ```
 square(int x) -> int
 {
@@ -80,9 +93,12 @@ Working with integers is similar to how C deals with integers. The arithmetic ty
 This will later be expanded upon more in detail.
 
 # Keeping track of everything (advanced and boring topic)
-Golem uses its own, optional calling convention, that's not even a convention in itself. Each function implicitly keeps track of the registers it clobbers to decide whether or not registers need to be pushed to the stack beforehand. Additionally, when working with operating-system specific code, you have the choice to use direct system calls instead of API calls.
+Golem uses its own, optional calling convention, that's not even a convention in itself.
+Each function implicitly keeps track of the registers it clobbers to decide whether or not registers need to be pushed to the stack beforehand.
+Additionally, when working with operating-system specific code, you have the choice to use direct system calls instead of API calls.
 
-Furthermore, *all* register values are kept track of and can use processor-specific code when possible. For example, if the `EAX` register needs to be set to `VALUE`, here's some pseudocode that shows the compiler's thinking.
+Furthermore, *all* register values are kept track of and can use processor-specific code when possible.
+For example, if the `EAX` register needs to be set to `VALUE`, here's some pseudocode that shows the compiler's thinking.
 ```
 if EAX == VALUE:
     encode(NULL)
@@ -95,4 +111,5 @@ else:
 ```
 
 # To be added?
-There's *much* to be decided on here. I want to avoid making all the decisions myself, because I have only lived through my experiences and have not faced some issues you may have faced while using a low-level language like Golem.
+There's *much* to be decided on here. I want to avoid making all the decisions myself,
+because I have only lived through my experiences and have not faced some issues you may have faced while using a low-level language like Golem.

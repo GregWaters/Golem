@@ -98,10 +98,10 @@ Each function implicitly keeps track of the registers it clobbers to decide whet
 Additionally, when working with operating-system specific code, you have the choice to use direct system calls instead of API calls.
 
 Furthermore, *all* register values are kept track of and can use processor-specific code when possible.
-For example, if the `EAX` register needs to be set to `VALUE`, here's some C code that shows the compiler's thinking.
-```c
+For example, if the `EAX` register needs to be set to `VALUE`, here's some C/C++ code that shows the compiler's thinking.
+```cpp
 if (EAX == VALUE)
-    encode(nullptr);
+    encode(NULL);
 else if (EAX == (VALUE - 1))
     encode("INC EAX");
 else if (EAX == (VALUE + 1))

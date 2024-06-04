@@ -101,13 +101,13 @@ Furthermore, *all* register values are kept track of and can use processor-speci
 For example, if the `EAX` register needs to be set to `VALUE`, here's some C code that shows the compiler's thinking.
 ```c
 if (EAX == VALUE)
-    encode(NULL);
+    encode(nullptr);
 else if (EAX == (VALUE - 1))
-    encode(INC EAX);
+    encode("INC EAX");
 else if (EAX == (VALUE + 1))
-    encode(DEC EAX);
+    encode("DEC EAX");
 else
-    encode(MOV EAX, VALUE);
+    encode("MOV EAX, VALUE");
 ```
 
 # To be added?

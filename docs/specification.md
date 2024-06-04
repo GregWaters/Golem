@@ -1,10 +1,10 @@
 # Credits
 - Greg Waters, 2024
 
-# Use case
-The largest part of learning a language is how it will help you make what you want to make. This language has been designed from the ground up with systems engineering and compiler design in mind,
-but it does not restrict itself to these applications.
-As I am a systems engineer by day, just trust me on that one. This language is ***not*** designed to replace C or C++, but to serve as an alternative for those who share my ideas on syntax-oriented design.
+# Overview (why would I use Golem?)
+The largest part of learning a language is how it will help you make what you want to make.
+Golem has been designed from the ground up to benefit all kinds of programmers. Unless you do web-dev, but you did that to yourself.
+
 
 Golem got its name while I was trying to think of a creature that embodies all the things I want the language to be; ***solid, stable, and simple.***
 

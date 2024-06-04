@@ -122,16 +122,17 @@ However, I believe that a great way to streamline the process would be using C++
 For example,
 ```cpp
 # 'search for functions in the 'math' namespace within this file'
-include mathematical_calculation_library.glh as math
+include math_library.mod as math
 
 main() -> int
 {
     return math::sqrt(3.141592653)
 }
 ```
+The `as math` is optional, if you do not want it to be scoped at all for any given reason.
 
 # Keeping track of everything (advanced and boring topic, may not even be added)
-Golem uses its own, optional calling convention, that's not even a convention in itself.
+Golem uses its own, optional calling convention that leverages Golem's various design philosophies, that's not even a convention in itself.
 Each function implicitly keeps track of the registers it clobbers to decide whether or not registers need to be pushed to the stack beforehand.
 Additionally, when working with operating-system specific code, you have the choice to use direct system calls instead of API calls.
 
@@ -148,8 +149,17 @@ else
     encode("MOV EAX, VALUE");
 ```
 
-# Assembly information
-Some of the features are inspired by the Netwide Assembler, which I work in often for needlessly-low-level programming.
+
+I do have reason behind such a wild change from C. It's my belief that stack operations should be avoided if at all possible.
+Stack operations are very simple to encode, but they can easily create redundant code.
+
+At the beginning of any given function, all registers that will be clobbered should be pushed to the stack.
+At the end of said function, the registers will be popped and their original values, save for `rax`/`eax` which holds the return value.
+
+Because all things in computer science are social constructs, we don't even necessarily *need* a calling convention and can just choose whatever is easiest to encode in the current program.
+The world might not be ready for that, though.
+
+Some of the features are inspired by the Netwide Assembler, which is my choice of software for needlessly-low-level programming.
 As it stands, it may be the assembler of choice in my personal implementation of this language draft.
 
 # TBA?

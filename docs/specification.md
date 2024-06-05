@@ -95,9 +95,10 @@ square(int x) -> int
     return x * x
 }
 ```
-`@pure` tells the compiler that the next function declaration does not modify global variables or outside memory (Input/Output, global variables, etc.) and
+`@pure` tells the compiler that the function is a 'pure function', meaning it will **always** return the same value when given the same parameters.
+This means that it cannot modify global state or read from anywhere beyond the function's scope.
 `@inline` tells the compiler that the function call should be eliminated entirely, and the machine code should simply be placed wherever a call occurs.
-This allows for each call to be optimized to fit the current use (for example, if one parameter is a constant value, the function doesn't have to treat it as unknown),
+This allows for each call to be optimized to fit the current use (for example, if a parameter is a constant value, the function doesn't have to treat it as unknown),
 but be aware that your code size may greatly increase if you apply this attribute to large functions!
 
 Attributes can also be applied to variables, like `@view` as shown below. Another important attribute is `@explicit`, which is applied on type declarations and means "do not implicitly cast this type to any other type!". This is helpful for type holding special data, like a user-defined pointer type.

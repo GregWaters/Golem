@@ -100,7 +100,8 @@ square(int x) -> int
 This allows for each call to be optimized to fit the current use (for example, if one parameter is a constant value, the function doesn't have to treat it as unknown),
 but be aware that your code size may greatly increase if you apply this attribute to large functions!
 
-Attributes can also be applied to variables, like `@view` as shown below.
+Attributes can also be applied to variables, like `@view` as shown below. Another important attribute is `@explicit`, which is applied on type declarations and means "do not implicitly cast this type to any other type!". This is helpful for type holding special data, like a user-defined pointer type.
+Implicitly casting a pointer to another type is almost never what you want to do, so it should be declared with `@explicit` to avoid such cases.
 
 # Views (Representing Data continued)
 In Golem, a constant is referred to as a **view**. I chose this name because I feel it draws a good parallel to reality in that you are merely 'seeing' this value, and it is not mutable in any way.

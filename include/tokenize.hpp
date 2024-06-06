@@ -43,6 +43,7 @@ struct token
         HASHTAG       , // #
         SCOPE         , // ::
         ARROW         , // ->
+        QUESTION      , // ?
         //////////////////
         // Boolean
         //////////////////
@@ -57,12 +58,6 @@ struct token
         LESS          , // <
         LESS_EQUAL    , // <=
         //////////////////
-        // Literals
-        //////////////////
-        IDENTIFIER    , // Name for variables and functions
-        STRING        , // String of characters; "Hello, world!"
-        FLOAT         , // 3.14, 1.1e5
-        //////////////////
         // Keywords
         //////////////////
         CLASS         , // Keyword used to define a class
@@ -74,15 +69,17 @@ struct token
         THIS          , // 'this' pointer; used to access the current object from within a class
         TRUE          , // Boolean type meaning 1
         WHILE         , // While-loop keyword
-        MODULE        , // Use outside code in current source file
-        IN            , // For use in range-based for loops (for <element> in <array>)
-        VIEW          , // For use in constant variables that exist in static memory, or for constant function parameters passed as reference
+        INCLUDE       , // Include a module file
+        IN            , // For use in range-based for loops (for <element> in <range>)
+        AS            , // Alias files (currently only used in `include <MODULE> as <ALIAS>)
         //////////////////
-        // Qualifiers
+        // Types
         //////////////////
-        DYNAMIC       , // Variable qualifier that allows it to automatically claim memory when its limits are reached
-        CONST         , // Makes a variable immutable (gives a compile-time error when an assignment is attempted)
-        //////////////////
+        INTEGER       , // Integer type
+        FLOAT         , // Single-precision floating point type
+        DOUBLE        , // Double-precision floating point type
+        STRING        , // String of characters (byte pointer)
+        ARRAY         , // Array type - decays to pointer
         // Other
         //////////////////
         INVALID       , //
@@ -95,21 +92,3 @@ struct token
     description desc;
 };
 
-std::vector<token> to_tokens(std::string_view str)
-{
-    std::vector<token> tokens;
-    tokens.reserve(256); // Heuristic optimization to avoid (8) redundant allocations
-
-    size_t i = 0;
-    while (i < str.length())
-    {
-        token current_token;
-        if (isdigit(str[i]))
-        {
-            current_token.data = str.data() + i;
-            
-        }
-    }
-
-    return tokens;
-}

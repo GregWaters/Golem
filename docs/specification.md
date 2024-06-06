@@ -164,7 +164,7 @@ The world might not be ready for that, though, due to binary compatibility.
 Some of the features are inspired by the Netwide Assembler, which is my choice of software for needlessly-low-level programming.
 As it stands, it may be the assembler of choice in my personal implementation of this language draft.
 
-# Integer arithmetic
+# Integer Arithmetic
 Integer literals can be represented with any number of digits, unrestricted to the long bit size on the system. This goes hand-in-hand with other decisions made in respect to arbitrarily sized integers.
 Because of this, we can define massive constant values very easily. However, I believe it also requires the use of arbitrary integer sizing when compiling code. It is unknown what side-effects this may cause.
 Perhaps we could simply process them as strings, after they cross the 512-bit integer limit in length? Literals greater than `(2 ** 64) - 1` must be stored in the data section of the generated assembly,

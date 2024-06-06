@@ -19,7 +19,7 @@ Because Golem is compiled, we can employ truly lossless abstraction techniques t
 Things like code compression in Javascript or Python bytecode compilation and subsequent interpretation aren't things you have to worry about.
 This means that we can fully analyze the code from all angles to see the best way to generate code for the processor.
 Of course, this has its limits. For instance, we don't want to inline every function call as that would massively bloat the resulting machine code (see C++ methods),
-nor would we want to statically link everything for the sake of performance (see Golang).
+nor would we want to statically link everything for the sake of compatibility/performance (see Golang).
 
 # Comments
 All comments are denoted with the `#` symbol, and last for the rest of the line.
@@ -55,7 +55,7 @@ byte bitmask { 0b10101010 } # support for binary literals!
 # type word { uint<WORDSIZE> }
 word word_max { (word) -1  }
 
-# (No equivalent definition)
+# type arr { byte ptr }
 byte arr<4> { 1, 3, 3, 7 }
 
 # type str { byte arr }
@@ -68,12 +68,18 @@ For example, lets say you need define a type that holds some data, such as an ip
 ```java
 type ipv4_addr { uint<32> }
 ```
-However, this presents an issue. You assign the value 2147483649 to the address and none of your poor co-workers have any idea what that means. However, you went to Golem school, so you clearly know what to do next. You face your co-workers and say, *fear not, for data is part of the design of this language*, and hastily redefine the variable as a graceful cast to a(n implicitly 4-element) byte array that holds the *exact same data* in a *different, more readable format!*
+However, this presents an issue. You assign the value 2147483649 to the address and none of your poor co-workers have any idea what that means. However, you went to Golem school, so you clearly know what to do next. You face your co-workers and say, *fear not, for data is part of the design of the language*, and hastily redefine the variable as a graceful cast to a(n implicitly 4-element) byte array that holds the *exact same data* in a different, more readable format!
 ```java
 ipv4_addr loopback { (byte arr) {127, 0, 0, 1} }
 ```
-As you can see, this casts an array of standard 32-bit integers to a literal array of bytes with implied size (8-bit integers). Then, the initialization occurs and the variable reads 32 bits into the array literal, finding the data we entered exactly as planned.
+As you can see, this casts an array of standard 32-bit integers to a literal array of bytes with implied size (8-bit integers).
+Then, the initialization occurs and the variable reads 32 bits into the array literal, finding the data we entered exactly as planned.
+Note that if it reads beyond a defined data area, the compiler can safely assume that all undefined bytes are zero in the same way that assigning `0x42` to a 16-bit integer would implicitly give it the value `0x0042`.
 
+```java
+int<64> num { (byte arr) {0xDE, 0xAF, 0xDE, 0xED} }
+# num = 0x00000000DEAFDEED
+```
 # Attributes
 Attributes are possibly the most important part of the language specification. They apply to functions, variables, types, and pretty much anything.
 We want the compiler to know exactly as much about our program as we do. Golem has some of its roots in more functional languages,
@@ -101,8 +107,9 @@ This means that it cannot modify global state or read from anywhere beyond the f
 This allows for each call to be optimized to fit the current use (for example, if a parameter is a constant value, the function doesn't have to treat it as unknown),
 but be aware that your code size may greatly increase if you apply this attribute to large functions!
 
-Attributes can also be applied to variables, like `@view` as shown below. Another important attribute is `@explicit`, which is applied on type declarations and means "do not implicitly cast this type to any other type!". This is helpful for type holding special data, like a user-defined pointer type.
-Implicitly casting a pointer to another type is almost never what you want to do, so it should be declared with `@explicit` to avoid such cases.
+Attributes can also be applied to variables, like `@view` as shown below. Another important attribute is `@explicit`, which is applied on type declarations and means "do not implicitly cast this type to any other type!".
+This is helpful for type holding special data, like a user-defined pointer type. Implicitly casting a pointer to another type is almost never what you want to do, so it should be declared with `@explicit` to avoid such cases.
+This attribute is a great way to implement 'data hiding' or 'encapsulation', a design pattern found in just about every C++ project ever written.
 
 # Views (Representing Data continued)
 In Golem, a constant is referred to as a **view**. I chose this name because I feel it draws a good parallel to reality in that you are merely 'seeing' this value, and it is not mutable in any way.
@@ -115,23 +122,25 @@ This makes iteration and scanning simple, because you can deduce the size and it
 
 # Modules
 Golem will hopefully be the first to implement a working module system instead of the preprocessor copy-paste system that C and C++ programmers are familiar with.
-Modules are a way to include outside function definitions without the overhead of opening, reading, and writing to several files.
+Modules are a way to include external definitions without the overhead of opening, reading, and writing to several files.
 And better yet, you can build in a defense against conflicting identifiers using the `as` keyword.
 This is something I commend the Python ecosystem for endorsing, as it doesn't just make ***writing*** libraries easier, it makes ***using*** libraries easier.
 
-The exact syntax for this is still up in the air, as I don't want to completely redo the Python syntax.
-However, I believe that a great way to streamline the process would be using C++'s *scope resolution* syntax.
 For example,
-```cpp
-# 'search for functions in the 'math' namespace within this file'
-include math_library.mod as math
 
-main() -> int
+```cpp
+include mathlibraryname.mod as math  
+
+main() -> int<32>
 {
-    return math::sqrt(3.141592653)
+    print("pi = " + (str) math.pi)
+    return math.log2(256) - 8
 }
 ```
-The `as math` is optional, if you do not want it to be scoped at all for any given reason.
+
+This cuts down on compile times immensely, as you are not only preventing name collisions with the <module>.<function> syntax, but also letting the compiler know exactly which file to look in to find the declaration.
+
+If an identifier is not found within a given module, an error should be thrown similar to "Could not find <IDENTIFIER> in module <MODULE>"
 
 # Keeping track of everything (advanced and boring topic, may not even be added)
 Golem uses its own, optional calling convention that leverages Golem's various design philosophies, that's not even a convention in itself.
@@ -139,7 +148,7 @@ Each function implicitly keeps track of the registers it clobbers to decide whet
 Additionally, when working with operating-system specific code, you have the choice to use direct system calls instead of API calls.
 
 Furthermore, *all* register values are kept track of and can use processor-specific code when possible.
-For example, if the `EAX` register needs to be set to `VALUE`, here's some C/C++ code that shows the compiler's thinking.
+For example, if the `EAX` register needs to be set to `VALUE`, here's some C code that shows the compiler's thinking.
 ```cpp
 if (EAX == VALUE)
     encode(NULL);
@@ -179,4 +188,4 @@ There's *much* to be decided on here. I want to avoid making all the decisions m
 because I'd much prefer if this language was molded in part by the people who will eventually use it.
 That means that all suggestions will be weighed against each other to get the *best possible* result.
 
-Happy coding!
+Happy hacking!

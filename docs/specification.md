@@ -155,14 +155,24 @@ else
 I do have reason behind such a wild change from C. It's my belief that stack operations should be avoided if at all possible.
 Stack operations are very simple to encode, but they can easily create redundant code.
 
-At the beginning of any given function, all registers that will be clobbered should be pushed to the stack.
+At the beginning of any given function, **only** registers that will be clobbered should be pushed to the stack.
 At the end of said function, the registers will be popped and their original values, save for `rax`/`eax` which holds the return value.
 
 Because all things in computer science are social constructs, we don't even necessarily *need* a calling convention and can just choose whatever is easiest to encode in the current program.
-The world might not be ready for that, though.
+The world might not be ready for that, though, due to binary compatibility.
 
 Some of the features are inspired by the Netwide Assembler, which is my choice of software for needlessly-low-level programming.
 As it stands, it may be the assembler of choice in my personal implementation of this language draft.
+
+# Integer arithmetic
+Integer literals can be represented with any number of digits, unrestricted to the long bit size on the system. This goes hand-in-hand with other decisions made in respect to arbitrarily sized integers.
+Because of this, we can define massive constant values very easily. However, I believe it also requires the use of arbitrary integer sizing when compiling code. It is unknown what side-effects this may cause.
+Perhaps we could simply process them as strings, after they cross the 512-bit integer limit in length? Literals greater than `(2 ** 64) - 1` must be stored in the data section of the generated assembly,
+as it does not support numbers beyond the 64-bit integer limit.
+
+Off the topic of literals, the actual arithmetic. Arithmetic is not very special, as I don't want to overcomplicate a set-in-stone system for zero benefit (I see no way to improve the C-style evaluation).
+Integers are evaluated with a standard binary tree evaluation process. The operand on the left is the destination, it will be replaced by the result. This is important to note because the left operand's type determines the type of the result.
+This evaluation continues until no answer can reached (there is only one operand, or the value is indeterminate at compile-time and must be performed at runtime).
 
 # TBA?
 There's *much* to be decided on here. I want to avoid making all the decisions myself,

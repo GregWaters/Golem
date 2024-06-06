@@ -18,11 +18,14 @@ you are encouraged to tune your code like a piano until it's something you can t
 Because Golem is compiled, we can employ truly lossless abstraction techniques to remove ambiguity in code (see "Representing Data" below).
 Things like code compression in Javascript or Python bytecode compilation and subsequent interpretation aren't things you have to worry about.
 This means that we can fully analyze the code from all angles to see the best way to generate code for the processor.
-Of course, this has its limits. For instance, we don't want to inline every function call as that would massively bloat the resulting machine code (see C++ methods),
-nor would we want to statically link everything for the sake of compatibility/performance (see Golang).
+
+Of course, this has clear limits. For instance, we don't want to inline every function as that would massively bloat the resulting machine code (see C++ methods),
+nor would we want to statically link everything for the sake of compatibility/performance (see Golang binary size).
+
+It is highly recommended that you read [the inline guide](https://github.com/GregWaters/Golem/blob/master/docs/inline.md) before inlining every function in your hypothetical codebase.
 
 # Comments
-All comments are denoted with the `#` symbol, and last for the rest of the line.
+All comments are denoted with the `#` symbol, and last for the rest of the line. I didn't want to add multi-line comments, as most multi-line comments in C have asterisks following them all the way down, so I see no realistic use-case aside from comments that are mid-line, such as `int</# this should not exceed the 32-bit integer limit #/ 32> sum { 0 }` (but that looks really, really ugly and misses the entire point of comments aiding in readability).
 
 # Types
 Types are a large part of the underlying structure of the Golem language. Using clean, yet descriptive type names denotes intention.

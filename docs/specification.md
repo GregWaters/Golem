@@ -188,7 +188,7 @@ This evaluation continues until no answer can reached (there is only one operand
 
 # TBA?
 There's *much* to be decided on here. I want to avoid making all the decisions myself,
-because I'd much prefer if this language was molded in part by the people who will eventually use it.
+because I'd much prefer if this language was molded in part by the people who may eventually use it.
 That means that all suggestions will be weighed against each other to get the *best possible* result.
 
 Happy hacking!

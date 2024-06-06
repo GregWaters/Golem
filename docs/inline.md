@@ -53,8 +53,8 @@ linux_print_hex(int<64> num) -> null
 
     do
     {
-        buffer[--i] = hexmap[num & 0b1111]
-        num >>= 4
+        buffer[--i] { hexmap[num & 0b1111] }
+        num { num >> 4 }
     }
     while (num != 0)
 

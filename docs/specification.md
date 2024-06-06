@@ -146,7 +146,7 @@ This cuts down on compile times immensely, as you are not only preventing name c
 If an identifier is not found within a given module, an error should be thrown similar to "Could not find <IDENTIFIER> in module <MODULE>"
 
 # Keeping track of everything (advanced and boring topic, may not even be added)
-Golem uses its own, optional calling convention that leverages Golem's various design philosophies, that's not even a convention in itself.
+Golem uses its own, optional calling convention that leverages its own various design philosophies, that's not even a convention in itself.
 Each function implicitly keeps track of the registers it clobbers to decide whether or not registers need to be pushed to the stack beforehand.
 Additionally, when working with operating-system specific code, you have the choice to use direct system calls instead of API calls.
 

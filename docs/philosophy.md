@@ -19,5 +19,14 @@ Either way, the result is the same - smaller, faster executables with the same, 
 This holds very large implications on extremely important pieces of software such as a kernel or a utility that is part of a large chain of commands, such as in a Bash script.
 When speeding up things like text-processing utilities, your PC will be more responsive as a whole.
 
-# TBA
-Merge this with the other ideas central to the language. 
+# Scalability
+A lot of these ideas are used for the sake of 'scalability'; the measurement of how easy it is to maintain as the project grows.
+This is also a good thing to keep in mind, as things like Firefox could take you anywhere from an hour to an entire day to compile alone!
+This is the reason that Java is widely used in corporate scenarios, you don't have to deal with the potentially massive wasted time compiling your code, and can simply test it at will.
+(Additionally, you can change your code *as it is running*, which was revolutionary at the time.)
+
+However, this scalability often sacrifices performant code, which is why (despite these clear advantages)
+Firefox is primarily written in C++, which is typically used as a great compromise between the near-unmatched speed of C and the useful abstraction of a language like Java.
+
+This exact scalability is highly cherished in large projects, and will not be overlooked in the language specification.
+This entire language is built around solving problems we could not have forseen in 1970 at C's conception, and that means scalability is a high priority.

@@ -20,13 +20,24 @@ This holds very large implications on extremely important pieces of software suc
 When speeding up things like text-processing utilities, your PC will be more responsive as a whole.
 
 # Scalability
-A lot of these ideas are used for the sake of 'scalability'; the measurement of how easy it is to maintain as the project grows.
-This is also a good thing to keep in mind, as things like Firefox could take you anywhere from an hour to an entire day to compile alone!
+Very important in the implementation of the above; the measurement of how easy it is to maintain as the project grows.
+In essence, that means "How can I explain this code to myself in 6 months time?" and "If my project takes 20 minutes to build, how much time will be spent compiling for small changes?"
+
+We *must* keep scalability in mind with these kinds of projects, as things like Firefox could take you anywhere from an hour to an entire day to compile alone!
 This is the reason that Java is widely used in corporate scenarios, you don't have to deal with the potentially massive wasted time compiling your code, and can simply test it at will.
 (Additionally, you can change your code *as it is running*, which was revolutionary at the time.)
 
-However, this scalability often sacrifices performant code, which is why (despite these clear advantages)
-Firefox is primarily written in C++, which is typically used as a great compromise between the near-unmatched speed of C and the useful abstraction of a language like Java.
+However, this scalability often sacrifices performant code, which is why, despite these clear advantages, Firefox is primarily written in C++.
+People understand that, despite the loss in development velocity, the performance is extremely valuable. That leads us to the next section.
 
-This exact scalability is highly cherished in large projects, and will not be overlooked in the language specification.
-This entire language is built around solving problems we could not have forseen in 1970 at C's conception, and that means scalability is a high priority.
+# Performance
+This language is built to approach native assembly in speed. We employ a more strict 'zero-overhead principle' than C++, as exceptions are not built into the language.
+This further emphasizes the *you don't pay for what you don't use* philosophy by allowing maximal control over your program's operation.
+
+Additionally, processor-specific optimization and automatic vectorization is already in use in some places, such as compilation targeting a widely-used gaming console.
+Because the specs of the device are known and you can safely assume that they won't change, you can target these devices and make the resulting software tuned exactly to the console's abilities.
+
+However, we have yet to see optimization targeting a specific operating system. This is strange, as it is even safer to assume that the user will not try to run the software on a different OS than a different CPU architecture,
+as executable formats are variable between operating systems regardless.
+With the Linux kernel supporting the fastcall convention for syscalls, we could improve performance on systems that utilize these conventions.
+Programs which rely on many kernel-based operations (IO-bound programs like GNU's `cat` utility come to mind) could benefit from this greatly.

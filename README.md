@@ -7,3 +7,6 @@ This is mostly a proof of concept, of course, because I will have a tough time h
 # Who is it for?
 Golem is for programmers who want low-level control and high-level abstraction without compromise. If you write C/C++, it will most likely be incredibly simple to learn and understand.
 It compiles directly to native machine code, so you don't have to deal with any bytecode or code compression like in higher level languages.
+
+# More information
+The `docs/` directory holds useful information on the specifics of this language. Read the specification [here](https://github.com/GregWaters/Golem/blob/master/docs/specification.md).

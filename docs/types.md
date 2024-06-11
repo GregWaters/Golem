@@ -1,21 +1,6 @@
 # Signed Integers
 Signed integers are declared using the `int` keyword. Signed integers are distinct in their reservation of the most significant bit to serve as the 'sign bit', used to determine whether or not a given number is negative.
-
-***IMPORTANT!*** - Signed integers are different in Golem than in most languages. This is due to the use of one's complement instead of two's complement.
-There are many reasons why one's complement is better and worse than two's complement. Here's a rundown of the pros and cons;
-
-**PROS**
-- Simpler negation and absolute value - With one's complement, negation is as simple as doing a bitwise xor on the most significant bit.
-  Likewise, absolute value is just as simple. 
-- Absolute value of `~0` is no longer an issue - Getting the absolute value of a binary number that is all ones in standard two's complement format is perfectly safe, and does not require to throw an invalid argument.
-  For example, in C/C++, `abs(-2147483648)` returns `-2147483648`, because two's complement simply cannot represent that number.
-  One's compliment wraps around before this point, and unlike in C++, signed overflow is well-defined behavior.
-
-**CONS**
-- Signed zero - Some people dislike the possibility of a signed zero,
-- ABI breakage - This will almost certainly break compatibility with C-based libraries. This is not to be understated, as many, many libraries are written in C primarily.
-This would require an ABI using one's complement or would require many libraries to be rewritten in Golem.
-Alternatively, a simple function could be used to convert Golem signed integers to C standard signed integers.
+Signed overflow is well-defined behavior in Golem, as only two's complement math is directly supported. 
 
 # Unsigned Integers
 Unsigned integers are declared using the `uint` keyword. Unsigned integers 
@@ -28,4 +13,47 @@ However, it should be noted that unsigned arithmetic allows for overflow mishaps
 Optionally, a non-negative number `N` contained within angled brackets will determine the number of bits reserved for an integer type. By default, `N` is equal to 32.
 All bit specifiers must be a power of 2 (alternatively `popcnt(N) == 1`) and must be at most 512.
 The reasoning behind these limitations is to aid in compiler design simplicity (if we put limits on things, we don't have to use dynamic memory allocation as much in the compilation process).
-Additionally, the restriction to power of two reduces the chance of several implicit casts being used in the generated assembly.
+The restriction to power of two reduces the chance of several implicit casts being used in the generated assembly.
+
+# Why not allow any number for `N`?
+Implicit casting is the devil, that's why! You may think that you're being proactive by telling the compiler that you only need *this* many bits, but it can't represent that easily, so it needs to have some tricks up its sleeve.
+
+For example, we have a C function that returns an `int<5>`, taking two parameters in `int<7> x` and `int<4> y`.
+```C
+_BitInt(5) add(_BitInt(7) x, _BitInt(4) y)
+{
+    return x + y;
+}
+```
+
+GCC 14.1 (-O2) compiles this to
+```nasm
+; Total bytes = 14
+add:
+  sal esi, 4
+  sar sil, 4
+  lea eax, [rdi+rsi]
+  and eax, 31
+  ret
+```
+
+However, if we disallowed these, we can eliminate these implicit casts entirely, and in doing so we change the code's structure as such:
+```C
+typedef _BitInt(8) byte;
+
+byte add(byte x, byte y)
+{
+    return x + y;
+}
+```
+
+Resulting in the compiled assembly being much less complex
+```nasm
+; Total bytes = 4
+add:
+  lea eax, [rdi+rsi]
+  ret
+```
+
+That means that this small change made the function *3.5 times smaller*. Not to mention the saved clock cycles.
+I should mention that this is not just applicable to functions, this is everything in your code.

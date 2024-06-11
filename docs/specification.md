@@ -10,7 +10,7 @@ Golem got its name while I was trying to think of a creature that embodies all t
 # Philosophy
 > *Make it work, then make it right.*
 
-It's easy to make a working product in Golem, but if you want to make it *right*,
+It should be easy to make a working product in Golem, but if you want to make it *right*,
 you are encouraged to tune your code like a piano until it's something you can truly be proud of.
 
 > *Don't do anything at runtime that can be done at compile-time*

@@ -25,7 +25,13 @@ nor would we want to statically link everything for the sake of compatibility/pe
 It is highly recommended that you read [the inline guide](https://github.com/GregWaters/Golem/blob/master/docs/inline.md) before inlining every function in your hypothetical codebase.
 
 # Comments
-All comments are denoted with the `#` symbol, and last for the rest of the line. I didn't want to add multi-line comments, as most multi-line comments in C have asterisks following them all the way down, so I see no realistic use-case aside from comments that are mid-line, such as `int</# this should not exceed the 32-bit integer limit #/ 32> sum { 0 }` (but that looks really, really ugly and misses the entire point of comments aiding in readability).
+All comments are denoted with the `#` symbol, and last for the rest of the line. I didn't want to add multi-line comments, as most multi-line comments in C have asterisks following them all the way down,
+so I see no realistic use-case aside from comments that are mid-line, such as `int</# this should not exceed the 32-bit integer limit #/ 32> sum { 0 }` (but that looks really, really ugly and misses the entire point of comments aiding in readability).
+For the sake of comparison, here's the Golem syntax;
+```python
+# This should not exceed the 32-bit integer limit
+int<32> sum { 0 }
+```
 
 # Types
 Types are a large part of the underlying structure of the Golem language. Using clean, yet descriptive type names denotes intention.

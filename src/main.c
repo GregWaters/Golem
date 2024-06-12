@@ -1,10 +1,4 @@
-#include <fstream>
-#include <iostream>
-#include <string>
-
-#include "tokenize.hpp"
-
-int main()
+int main(int argc, char **argv)
 {
-    // no code, the greatest code of all
+    
 }

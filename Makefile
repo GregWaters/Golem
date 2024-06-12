@@ -1,4 +1,3 @@
-# Simple makefile, not intended to be too terribly efficient
-
 all:
-	$(CXX) src/*.cpp -I include -O2 -o golem
+	mkdir -p bin/
+	$(CXX) src/*.c -Iinclude -O2 -o bin/golem

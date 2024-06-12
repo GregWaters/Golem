@@ -1,12 +1,5 @@
-# Executable files
-*.out
-*.exe
-
-# Visual Studio Code files
+# Ignore vscode files
 .vscode/
 
-# This won't be changing for a while lol
-LICENSE
-
-# Our language source files
-*.glm
+# Ignore executables
+bin/

@@ -10,7 +10,7 @@ Golem got its name while I was trying to think of a creature that embodies all t
 # Philosophy
 > *Make it work, then make it right.*
 
-It's easy to make a working product in Golem, but if you want to make it *right*,
+It should be easy to make a working product in Golem, but if you want to make it *right*,
 you are encouraged to tune your code like a piano until it's something you can truly be proud of.
 
 > *Don't do anything at runtime that can be done at compile-time*
@@ -25,7 +25,13 @@ nor would we want to statically link everything for the sake of compatibility/pe
 It is highly recommended that you read [the inline guide](https://github.com/GregWaters/Golem/blob/master/docs/inline.md) before inlining every function in your hypothetical codebase.
 
 # Comments
-All comments are denoted with the `#` symbol, and last for the rest of the line. I didn't want to add multi-line comments, as most multi-line comments in C have asterisks following them all the way down, so I see no realistic use-case aside from comments that are mid-line, such as `int</# this should not exceed the 32-bit integer limit #/ 32> sum { 0 }` (but that looks really, really ugly and misses the entire point of comments aiding in readability).
+All comments are denoted with the `#` symbol, and last for the rest of the line. I didn't want to add multi-line comments, as most multi-line comments in C have asterisks following them all the way down,
+so I see no realistic use-case aside from comments that are mid-line, such as `int</# this should not exceed the 32-bit integer limit #/ 32> sum { 0 }` (but that looks really, really ugly and misses the entire point of comments aiding in readability).
+For the sake of comparison, here's the Golem syntax;
+```python
+# This should not exceed the 32-bit integer limit
+int<32> sum { 0 }
+```
 
 # Types
 Types are a large part of the underlying structure of the Golem language. Using clean, yet descriptive type names denotes intention.
@@ -83,45 +89,6 @@ Note that if it reads beyond a defined data area, the compiler can safely assume
 int<64> num { (byte arr) {0xDE, 0xAF, 0xDE, 0xED} }
 # num = 0x00000000DEAFDEED
 ```
-# Attributes
-Attributes are possibly the most important part of the language specification. They apply to functions, variables, types, and pretty much anything.
-We want the compiler to know exactly as much about our program as we do. Golem has some of its roots in more functional languages,
-as I believe there's lessons to learn there even if you don't care for the whole functional death-cult thing.
-
-Let's say you're defining a function named `square` that takes a type as input and returns its value times itself. This is quite trivial and can be defined as
-```java
-square(int x) -> int
-{
-    return x * x
-}
-```
-And that's perfectly fine, but what if we wanted to tell the compiler that this function is entirely stateless? The answer, of course, is the explosive power of *attributes*.
-With one line of code, we can avoid several redundant lines of machine code (you can't see this, but it's there I promise :)
-```java
-@pure @inline
-square(int x) -> int
-{
-    return x * x
-}
-```
-`@pure` tells the compiler that the function is a 'pure function', meaning it will **always** return the same value when given the same parameters.
-This means that it cannot modify global state or read from anywhere beyond the function's scope.
-`@inline` tells the compiler that the function call should be eliminated entirely, and the machine code should simply be placed wherever a call occurs.
-This allows for each call to be optimized to fit the current use (for example, if a parameter is a constant value, the function doesn't have to treat it as unknown),
-but be aware that your code size may greatly increase if you apply this attribute to large functions!
-
-Attributes can also be applied to variables, like `@view` as shown below. Another important attribute is `@explicit`, which is applied on type declarations and means "do not implicitly cast this type to any other type!".
-This is helpful for type holding special data, like a user-defined pointer type. Implicitly casting a pointer to another type is almost never what you want to do, so it should be declared with `@explicit` to avoid such cases.
-This attribute is a great way to implement 'data hiding' or 'encapsulation', a design pattern found in just about every C++ project ever written.
-
-# Views (Representing Data continued)
-In Golem, a constant is referred to as a **view**. I chose this name because I feel it draws a good parallel to reality in that you are merely 'seeing' this value, and it is not mutable in any way.
-However, just as normal, you can assign variables to constant values and mutate the copy. To make an ordinary variable a view, add the `@view` attribute to a variable on initialization.
-
-This feature is expanded upon through direct support for embedded files within an executable. Think of it as C and C++'s `#include` directive, but for assembly code.
-All embedded files can be accessed through a pointer to the first byte of data. If a file that should be embedded is empty or does not exist, that will give a warning to the programmer.
-Embedded files have two parts, `file.start` and `file.end`. Both of these return constant pointers to the start and end of the file's representation, respectively.
-This makes iteration and scanning simple, because you can deduce the size and iteration is as simple as `for (byte data in range(file.start, file.end) { DO STUFF }`
 
 # Modules
 Golem will hopefully be the first to implement a working module system instead of the preprocessor copy-paste system that C and C++ programmers are familiar with.
@@ -141,7 +108,7 @@ main() -> int<32>
 }
 ```
 
-This cuts down on compile times immensely, as you are not only preventing name collisions with the <module>.<function> syntax, but also letting the compiler know exactly which file to look in to find the declaration.
+This cuts down on compile times greatly, as you are not only preventing name collisions with the <module>.<function> syntax, but also letting the compiler know exactly where to look to find the declaration.
 
 If an identifier is not found within a given module, an error should be thrown similar to "Could not find <IDENTIFIER> in module <MODULE>"
 
@@ -190,5 +157,7 @@ This evaluation continues until no answer can reached (there is only one operand
 There's *much* to be decided on here. I want to avoid making all the decisions myself,
 because I'd much prefer if this language was molded in part by the people who may eventually use it.
 That means that all suggestions will be weighed against each other to get the *best possible* result.
+
+Currently, I am trying to split this large file up into smaller, more easily read files.
 
 Happy hacking!

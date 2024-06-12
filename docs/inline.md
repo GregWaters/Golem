@@ -1,6 +1,6 @@
-# The `@inline` attribute
+# Overview
 There is an art to knowing exactly when to inline functions. In some cases, it can make code larger, smaller, faster, and slower. The only variable is knowing *when* to correctly use it.
-Remember that smaller executables tend to stay within the code cache much easier, which will result in a program that is simply faster than otherwise.
+Smaller executables tend to stay within the code cache much easier, which will result in a program that is simply faster than otherwise.
 Understanding these low-level details will help you create a program that doesn't just *work*, but works excellently.
 
 # Inline a function when...
@@ -40,6 +40,7 @@ complex_hash(str hash_string) -> int<64>
     int<64> hashval{ 0 }
     # (500-step hash process)
     return hashval
+}
 ```
 
 ```cpp
@@ -48,23 +49,25 @@ linux_print_hex(int<64> num) -> null
     @view
     str hexmap = "0123456789ABCDEF"
 
-    byte arr<32> buffer {}
-    uint<32> iterator{ 32 }
+    # Missing values (all values) are zero-initialized
+    byte arr<32> buffer { }
+    uint<32> iterator { 32 }
 
     do
     {
-        buffer[--i] { hexmap[num & 0b1111] }
+        iterator { iterator - 1 }
+        buffer[i] { hexmap[num & 0b1111] }
         num { num >> 4 }
     }
     while (num != 0)
 
-    unix.write(1, buffer + i, 32 - i)
+    # write output to stdout file-descriptor
+    linux.write(1, buffer + iterator, 32 - iterator)
 }
 ```
 
 # Conclusion
 Most of the time, the compiler will know when to inline a given function. However, understanding when and why you should, you may be able to tune the generated machine code to do whatever you need it to do.
 Alternatively, you may just want to experiment with the performance of inlining a function rather than calling it, and want to make sure it's inlined to test it.
-Whatever your use case may be, this does not follow the C inline rules, and can be a very dangerous tool held in inexperienced hands as it supersedes the compiler's own judgement.
 
 Good luck using this tool effectively!

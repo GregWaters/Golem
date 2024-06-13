@@ -49,3 +49,5 @@ If an attempt is made to assign to a `@view` variable, a compile-time error is t
 `@hot` (functions) - Tell the compiler that this function is called often. Effect on code-generation is implementation-defined.
 
 `@cold` (functions) - Tell the compiler that this function is ***not*** called often. Effect on code-generation is implementation-defined.
+
+`@local` (functions) - Assume that this function is not called outside of this translation unit.

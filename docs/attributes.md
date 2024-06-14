@@ -16,19 +16,39 @@ If a function **does** meet these requirements, the compiler can do a few valuab
 
 ```python
 @pure
-func get_number() -> int<32>
+func low_byte(int<32> n) -> int<32>
 {
-    # (Code that is indeterminate at compile-time)
+    # Zero all bytes except lowest
+    return n & 0x000000FF
 }
 
-func main -> int<32>
+func main() -> int<32>
 {
-    int<32> number1 { get_number() }
-    int<32> number2 { get_number() }
+    # Unavoidable impure function call
+    int<32> num = getnum("Input number: ")
+
+    # Pure function calls
+    int<32> number1 { low_byte(num) }
+    int<32> number2 { low_byte(num) }
 
     return number1 + number2
 }
 ```
+As you may have guessed, `main` can automatically be optimized to
+```python
+@pure
+func low_byte(int<32> n) -> int<32>
+{
+    # Zero all bytes except lowest
+    return n & 0x000000FF
+}
+
+func main() -> int<32>
+{
+    return low_byte(getnum("Input number: ")) * 2
+}
+```
+and only one call to the indeterminate function is made.
 
 `@inline` (functions) Tell the compiler that the function call is to be eliminated entirely, and the function's code should replace it.
 This allows for each call to be optimized to fit the current use case.
@@ -49,3 +69,5 @@ If an attempt is made to assign to a `@view` variable, a compile-time error is t
 `@hot` (functions) - Tell the compiler that this function is called often. Effect on code-generation is implementation-defined.
 
 `@cold` (functions) - Tell the compiler that this function is ***not*** called often. Effect on code-generation is implementation-defined.
+
+`@local` (functions) - Assume that this function is not called outside of this translation unit.

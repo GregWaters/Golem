@@ -48,8 +48,3 @@ enum token
     FUNC,     // Function declaration
 }
 
-bool is_keyword(enum token tok)
-{
-    return (tok >= INT && tok <= FUNC);
-}
-

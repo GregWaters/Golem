@@ -16,19 +16,39 @@ If a function **does** meet these requirements, the compiler can do a few valuab
 
 ```python
 @pure
-func get_number() -> int<32>
+func low_byte(int<32> n) -> int<32>
 {
-    # (Code that is indeterminate at compile-time)
+    # Zero all bytes except lowest
+    return n & 0x000000FF
 }
 
-func main -> int<32>
+func main() -> int<32>
 {
-    int<32> number1 { get_number() }
-    int<32> number2 { get_number() }
+    # Unavoidable impure function call
+    int<32> num = getnum("Input number: ")
+
+    # Pure function calls
+    int<32> number1 { low_byte(num) }
+    int<32> number2 { low_byte(num) }
 
     return number1 + number2
 }
 ```
+As you may have guessed, `main` can automatically be optimized to
+```python
+@pure
+func low_byte(int<32> n) -> int<32>
+{
+    # Zero all bytes except lowest
+    return n & 0x000000FF
+}
+
+func main() -> int<32>
+{
+    return low_byte(getnum("Input number: ")) * 2
+}
+```
+and only one call to the indeterminate function is made.
 
 `@inline` (functions) Tell the compiler that the function call is to be eliminated entirely, and the function's code should replace it.
 This allows for each call to be optimized to fit the current use case.

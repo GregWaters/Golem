@@ -2,19 +2,23 @@
 
 enum token
 {
+    // Signal tokens
+    EOS, // End of token stream
+
     // Braces
     LEFT_BRACE,  // {
     RIGHT_BRACE, // }
-    LEFT_PAREN,  // (
-    RIGHT_PAREN, // )
     LEFT_BRACK,  // [
     RIGHT_BRACK, // ]
-    
+    LEFT_PAREN,  // (
+    RIGHT_PAREN, // )
+
     // Arithmetic
     PLUS,     // +
     MINUS,    // -
     ASTERISK, // *
     FWDSLASH, // /
+    MODULUS,  // %
 
     // Bitwise
     NOT,    // ~
@@ -26,14 +30,10 @@ enum token
 
     // Boolean
     EQUALS,     // =
-    BOOL_AND,   // &&
-    BOOL_OR,    // ||
-    BOOL_NOT,   // !
     GREATER,    // >
     GREATER_EQ, // >=
     LESS,       // <
     LESS_EQ,    // <=
-    NOT_EQ,     // !=
     
     // Syntax
     HASHTAG, // #
@@ -41,10 +41,17 @@ enum token
     IDENT,   // User-defined name
     COMMA,   // ,
 
+    // Literals
+    INTEGER_LIT, // 42
+    FLOAT_LIT,   // 3.14
+    STRING_LIT,  // "Hello, world!"
+    CHAR_LIT,    // '!'
+
     // Keywords
-    INT,      // Integer variable declaration
-    FLOAT,    // Floating-point variable declaration
-    CLASS,    // Class declaration
-    FUNC,     // Function declaration
-}
+    K_INT,      // Integer variable declaration
+    K_FLOAT,    // Floating-point variable declaration
+    K_CLASS,    // Class declaration
+    K_FUNC,     // Function declaration
+    K_NULL,     // Representation of 'nothing'
+};
 

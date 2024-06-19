@@ -31,7 +31,7 @@ However, this scalability often sacrifices performant code, which is why, despit
 People understand that, despite the loss in development velocity, the performance is extremely valuable. That leads us to the next section.
 
 # Performance
-This language is built to approach native assembly in speed. We employ a more strict 'zero-overhead principle' than C++, as exceptions are not built into the language.
+This language is built to approach hand-written assembly in speed. We employ a more strict 'zero-overhead principle' than C++, as exceptions are not built into the language.
 This further emphasizes the *you don't pay for what you don't use* philosophy by allowing maximal control over your program's operation.
 
 Additionally, processor-specific optimization and automatic vectorization is already in use in some places, such as compilation targeting a widely-used gaming console.

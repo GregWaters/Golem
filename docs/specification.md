@@ -19,19 +19,14 @@ Because Golem is compiled, we can employ truly lossless abstraction techniques t
 Things like code compression in Javascript or Python bytecode compilation and subsequent interpretation aren't things you have to worry about.
 This means that we can fully analyze the code from all angles to see the best way to generate code for the processor.
 
-Of course, this has clear limits. For instance, we don't want to inline every function as that would massively bloat the resulting machine code (see C++ methods),
-nor would we want to statically link everything for the sake of compatibility/performance (see Golang binary size).
+Of course, this has clear limits. For instance, we don't want to [inline every function](https://en.wikipedia.org/wiki/C%2B%2B_classes) as that would massively bloat the resulting machine code,
+nor would we want to [statically link everything for the sake of compatibility](https://en.wikipedia.org/wiki/Go_(programming_language)).
 
 It is highly recommended that you read [the inline guide](https://github.com/GregWaters/Golem/blob/master/docs/inline.md) before inlining every function in your hypothetical codebase.
 
 # Comments
-All comments are denoted with the `#` symbol, and last for the rest of the line. I didn't want to add multi-line comments, as most multi-line comments in C have asterisks following them all the way down,
-so I see no realistic use-case aside from comments that are mid-line, such as `int</# this should not exceed the 32-bit integer limit #/ 32> sum { 0 }` (but that looks really, really ugly and misses the entire point of comments aiding in readability).
-For the sake of comparison, here's the Golem syntax;
-```python
-# This should not exceed the 32-bit integer limit
-int<32> sum { 0 }
-```
+All comments are denoted with the `#` symbol, and last for the rest of the line. I didn't want to add multi-line comments, because they look horrendous.
+I see no realistic use-case aside from comments that are mid-line, such as `int</# this should not exceed the 32-bit integer limit #/ 32> sum { 0 }` (but that looks even worse than normal multiline comments and misses the entire point of comments aiding in readability).
 
 # Types
 Types are a large part of the underlying structure of the Golem language. Using clean, yet descriptive type names denotes intention.
@@ -50,7 +45,7 @@ If a bit-specifier does not meet these requirements, the compiler should throw a
 Types can be defined with the `type` keyword. Although the syntax is very similar to a standard variable, it should be noted that it holds *identifiers* in your program, not standard values.
 
 Listed below is the standard syntax for declaring variables with their respective types
-(while these are all primitive types, equivalent declarations are above in comments):
+(equivalent declarations are above in comments):
 ```java
 # int<LONGSIZE>
 int n { 5 }
@@ -98,10 +93,11 @@ This is something I commend the Python ecosystem for endorsing, as it doesn't ju
 
 For example,
 
-```cpp
-include mathlibraryname.mod as math  
+```java
+# Search the current directory (and optionally specified paths on the commandline) for this file 
+include "mathlibraryname.mod" as math  
 
-main() -> int<32>
+func main() -> int<32>
 {
     print("pi = " + (str) math.pi)
     return math.log2(256) - 8

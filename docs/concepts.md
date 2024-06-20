@@ -25,7 +25,8 @@ func main -> int<32>
 ```
 
 The above comparison will always evaluate to false under these rules, as the types simply do not store data in the same mechanism.
-To adjust for this, when floating point numbers are in a comparison, the other type should be cast to the floating-point type of the 
+To adjust for this, when floating point numbers are in a comparison, the other type should be cast to the floating-point type.
+Of course, the size rules apply afterwards - If both types are floating-point types, the smaller type is cast to the larger type.
 
 For example, the above expression should evaluate to true, because a floating-point 5 can be semantically evaluated using a cast.
 

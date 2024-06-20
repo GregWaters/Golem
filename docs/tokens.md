@@ -4,11 +4,12 @@ All operations are shown in C-adjacent pseudo-code.
 
 # Braces
 `{` - Left brace:
-- Begins a scope and is used for assignment.
+- Beginning of scope.
+- Marks beginning of assignment value.
 
 `}` - Right brace:
 - End of scope.
-- End of assignment statement.
+- End of assignment value.
 
 `[` - Left bracket:
 - Dereferences pointers with an optional offset value when used immediately to the right of a pointer expression. Any integer literal within this symbol and `]` is implicitly multiplied by the size, in bytes, of the type being pointed to.

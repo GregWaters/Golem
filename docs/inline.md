@@ -28,7 +28,7 @@ to_lowercase(char c) -> char
 }
 ```
 
-# Avoid inlining a function when...
+ Avoid inlining a function when...
 - The function takes up several lines of complex logic
 - It may break binary compatibility
 - The function's main overhead is IO operations (as an aside, you should avoid using IO outside of the `main()` function)
@@ -38,7 +38,7 @@ Examples of functions that should definitely *not* be inlined
 complex_hash(str hash_string) -> int<64>
 {
     int<64> hashval{ 0 }
-    # (500-step hash process)
+    ; (500-step hash process)
     return hashval
 }
 ```
@@ -49,7 +49,7 @@ linux_print_hex(int<64> num) -> null
     @view
     str hexmap = "0123456789ABCDEF"
 
-    # Missing values (all values) are zero-initialized
+    ; Missing values (all values) are zero-initialized
     byte arr<32> buffer { }
     uint<32> iterator { 32 }
 
@@ -61,7 +61,7 @@ linux_print_hex(int<64> num) -> null
     }
     while (num != 0)
 
-    # write output to stdout file-descriptor
+    ; write output to stdout file-descriptor
     linux.write(1, buffer + iterator, 32 - iterator)
 }
 ```

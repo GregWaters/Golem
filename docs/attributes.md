@@ -18,16 +18,16 @@ If a function **does** meet these requirements, the compiler can do a few valuab
 @pure
 func low_byte(int<32> n) -> int<32>
 {
-    # Zero all bytes except lowest
+    ; Zero all bytes except lowest
     return n & 0x000000FF
 }
 
 func main() -> int<32>
 {
-    # Unavoidable impure function call
+    ; Unavoidable impure function call
     int<32> num = getnum("Input number: ")
 
-    # Pure function calls
+    ; Pure function calls
     int<32> number1 { low_byte(num) }
     int<32> number2 { low_byte(num) }
 
@@ -39,7 +39,7 @@ As you may have guessed, `main` can automatically be optimized to
 @pure
 func low_byte(int<32> n) -> int<32>
 {
-    # Zero all bytes except lowest
+    ; Zero all bytes except lowest
     return n & 0x000000FF
 }
 

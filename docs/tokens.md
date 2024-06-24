@@ -1,6 +1,5 @@
 # Overview
 This is a glossary of all tokens in the Golem language and their formal definitions -- it may change if new keywords (or even operators) are added.
-All operations are shown in C-adjacent pseudo-code.
 
 # Braces
 `{` - Left brace:

@@ -121,11 +121,11 @@ Both operands must be of integral types.
 `,` - Comma:
 - Used as a separator in various places.
 
-`#` - Hashtag:
-- Tell the compiler to ignore all characters from this point until a newline is reached.
+`;` - Semicolon:
+- Tell the compiler to ignore all characters from this point until a newline is reached. If the newline is preceded by a backslash character (`\`), the newline will not terminate the statement.
 
 `@` - Attribute:
 - Used to turn an attribute specified immediately after the `@` symbol.
 
-`->` - Arrow:
+`->` - Arrowhead:
 - Used immediately after a function declaration to specify the return value.

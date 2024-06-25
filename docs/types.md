@@ -9,6 +9,29 @@ A boolean type only requires 1 bit, so it is defined as `uint<1>` internally.
 Unsigned arithmetic is as simple as it gets, as you never have to deal with signedness and the issues that come along with it.
 However, it should be noted that unsigned arithmetic allows for overflow mishaps to happen a lot easier.
 
+# Floating-point Types
+There isn't as much flexibility in floating-point types relative to integral types. The bit specifier must be a power of two between 8 and 256 (inclusive).
+This defines relatively few floating-point types that can be defined. Here's a list of possible names for them (these are not part of the standard):
+```cpp
+; Each IEEE floating-point type will have the bits shown above it, commented.
+; Each number denotes the sign bit, exponent bits, and mantissa bits respectively.
+
+; 1.5.10
+type float_half { float<16> }
+
+; 1.8.23
+type float_single { float<32> }
+
+; 1.11.52
+type float_double { float<64> }
+
+; 1.15.112
+type float_quadruple { float<128> }
+
+; 1.19.236
+type float_octuple { float<256> }
+```
+
 # Bit Specifier
 Optionally, a non-negative number `N` contained within angled brackets will determine the number of bits reserved for an integer type. By default, `N` is equal to 32.
 The maximum value for `N` is implementation defined, but will throw an error if `N` is exceeds this value. It is safe to assume that the maximum value is at *least* 512.

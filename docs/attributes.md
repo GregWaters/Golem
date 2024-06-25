@@ -2,7 +2,8 @@
 Attributes are possibly the most important part of the language specification. Depending on the attribute, it can apply to a mixture of functions, variables, or types.
 Ideally, we want the compiler to know exactly as much about our program as we do.
 
-Yes, I really did believe that I made this syntax myself... only a month or two later I found out that Swift has the *exact same syntax* :|
+Yes, I really did believe that I made this syntax myself... only a month or two later I found out that Swift has the *exact same syntax*.
+All the power to them, though. Swift is an absolutely incredible language and holds close a lot of the ideas that I put into this project, such as an emphasis on dynamic linking and low resource usage.
 
 # Attribute Definitions
 Format: `@name` (use when declaring...) - definition

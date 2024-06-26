@@ -116,6 +116,9 @@ Both operands must be of integral types.
 
 `null`
 - Can be specified in the place of a type in function return values to tell the compiler that the function does not return a value.
+
+`extern`
+- Used directly before the `func` keyword to tell the compiler that there is no code block beneath the parameter list (this must be done due to the lack of semicolons for explicit statement-termination), and that the linker will find the function and link it to the definition.
   
 # Other
 `,` - Comma:

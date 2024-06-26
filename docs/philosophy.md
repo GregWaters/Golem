@@ -12,7 +12,7 @@ When interfacing with a library written in C, it would typically look like this
 ; file: math.mod
 
 @cdecl
-func add(int<64> a, int<64> b) -> int<64>
+extern func add(int<64> a, int<64> b) -> int<64>
 ```
 
 The `@cdecl` attribute tells the compiler to use the C calling convention when calling that function.

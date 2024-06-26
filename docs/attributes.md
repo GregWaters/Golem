@@ -65,7 +65,8 @@ If an attempt is made to assign to a `@view` variable, a compile-time error is t
 
 `@explicit` (types) - Do not allow this type to be implicitly casted to or from. If a cast is desired, it must be done explicitly.
 
-`@atomic` (functions, types) - For functions, this means that it *must* not be run parallel to any other thread. For type, this means that a variable declared with the type must be accessed in a single instruction.
+`@atomic` (functions, types) - Atomic operations are operations are absolutely indivisible. For functions, this means that the function ***must*** be called sequentially, not in parallel.
+For types, this means that variable accesses are also to be done sequentially, and cannot be done in parallel.
 
 `@deprecated` (functions) - Raise a warning if the function is called (warning should include `@deprecated` attribute as reasoning). Typically used alongside `@cold` in library source code.
 
@@ -73,10 +74,8 @@ If an attempt is made to assign to a `@view` variable, a compile-time error is t
 
 `@cold` (functions) - Tell the compiler that this function is ***not*** called often. Effect on code-generation is implementation-defined.
 
-`@local` (functions) - Assume that this function is not called outside of this translation unit.
+`@local` (functions) - Keep this function within the bounds of this source file.
 
 `@cdecl` (functions) - Use the C calling convention (used for interfacing with C libraries).
 
-`@fastcall` (functions) - Store the first two function arguments in registers and push the rest to the stack from right to left.
-
-`@hypercall` (functions) - Do not use the stack, load values into specific registers for function arguments. The callee is responsible for restoring the values if needed.
+`@fastcall` (functions) - Use the fastcall calling convention (used for interfacing with certain APIs).

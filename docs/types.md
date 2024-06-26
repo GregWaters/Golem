@@ -12,7 +12,7 @@ However, it should be noted that unsigned arithmetic allows for overflow mishaps
 # Floating-point Types
 There isn't as much flexibility in floating-point types relative to integral types. The bit specifier must be a power of two between 8 and 256 (inclusive).
 This defines relatively few floating-point types that can be defined. Here's a list of possible names for them (these are not part of the standard):
-```cpp
+```nasm
 ; Each IEEE floating-point type will have the bits shown above it, commented.
 ; Each number denotes the sign bit, exponent bits, and mantissa bits respectively.
 
@@ -37,3 +37,32 @@ Optionally, a non-negative number `N` contained within angled brackets will dete
 The maximum value for `N` is implementation defined, but will throw an error if `N` is exceeds this value. It is safe to assume that the maximum value is at *least* 512.
 
 Originally, these values were required to be powers of two, but after working with the `_BitInt` type in C23, I really do think that it's unhealthy for the language as a whole to [assume that programmers don't know what they're doing](https://en.wikipedia.org/wiki/Rust_(programming_language)).
+
+# The `data` Type
+Every literal in Golem is given a type, due to the semantics of arithmetic evaluation within the language. However, **all** literals have one unified type, and that type is named `data` - the type for the typeless.
+
+Data is everywhere in the Golem language. However, it's even more omnipresent than you'd think, even after reading up on the 'Representing data' section.
+Strings are an array of bytes with `0x00` byte at the end to signal termination. It is important to remember that **this is all just an array of bytes**. Under the hood, a string is stored similarly to the code block below.
+
+```nasm
+; These expressions are identical
+"Hello!"
+{ 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x21, 0x00 }
+```
+
+However, both of these expressions are meaningless without something to interpret their meaning.
+Using a `print` function on any of these types will spell ambiguity, as we never assigned a type to the data!
+If you haven't figured it out already, we give meaning to data when we assign it to a *typed variable*.
+
+Indeed, the only reason this data has any meaning at all is through implicit casting. When I call a function that prints out a character, the parameter must have a type in order to exist. For example
+
+```nasm
+func print_char -> null
+char ch
+{
+    ; (code)
+}
+```
+
+where I could call `print_char` with any single byte, or with any non-explicit type, and interpret the value as a character. Unlike in C, you can create array literals without assigning them to a variable.
+These literals may be stored in the `.data` section or the `.text` section, depending on the size and architecture of the compile target.

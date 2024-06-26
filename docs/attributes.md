@@ -13,9 +13,10 @@ The compiler will assert that the function does not read or write to any memory 
 
 And will throw an error if they do not meet these requirements.
 
-If a function **does** meet these requirements, the compiler can do a few valuable things:
+If a function **does** meet these requirements, the compiler is allowed to do a few valuable things:
 - Assume that subsequent calls to the function with the same parameters are equal
 - Replace a value in the generated machine code with the result of the evaluation
+- Evaluate the function at compile-time
 
 ```python
 @pure
@@ -59,7 +60,6 @@ This allows for each call to be optimized to fit the current use case.
 The inline attribute also allows for compile-time type information, as it is a guarantee, not a hint.
 If a function cannot be inlined, a compile-time error will be thrown.
 
-
 `@view` (variables) - Treat the variable as a constant value. The variable must be initialized with a value, and that value must known at compile-time.
 If an attempt is made to assign to a `@view` variable, a compile-time error is thrown.
 
@@ -67,10 +67,16 @@ If an attempt is made to assign to a `@view` variable, a compile-time error is t
 
 `@atomic` (functions, types) - For functions, this means that it *must* not be run parallel to any other thread. For type, this means that a variable declared with the type must be accessed in a single instruction.
 
-`@deprecated` (functions) - Raise a warning if the function is called (warning should include `@deprecated` attribute as reasoning).
+`@deprecated` (functions) - Raise a warning if the function is called (warning should include `@deprecated` attribute as reasoning). Typically used alongside `@cold` in library source code.
 
 `@hot` (functions) - Tell the compiler that this function is called often. Effect on code-generation is implementation-defined.
 
 `@cold` (functions) - Tell the compiler that this function is ***not*** called often. Effect on code-generation is implementation-defined.
 
 `@local` (functions) - Assume that this function is not called outside of this translation unit.
+
+`@cdecl` (functions) - Use the C calling convention (used for interfacing with C libraries).
+
+`@fastcall` (functions) - Store the first two function arguments in registers and push the rest to the stack from right to left.
+
+`@hypercall` (functions) - Do not use the stack, load values into specific registers for function arguments. The callee is responsible for restoring the values if needed.

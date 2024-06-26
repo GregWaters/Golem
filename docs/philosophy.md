@@ -1,3 +1,22 @@
+# Intuitive design does not imply compromise
+The reason C is so timeless and cherished, even 50 years later, is because it does not compromise its core utility for the sake of familiarity.
+Of the top 10 languages listed on the TIOBE index (as of June 2024), 6 of them are directly influenced by C's design.
+For this reason, I don't believe that compromise can be made in a language of this scale.
+
+# Avoiding ABI breakage
+Binary compatibility is a complex issue when it comes to designing a low-level language like Golem.
+Due to the necessity of working together with systems we have had in place for half a century at this point,
+all functions can be declared with attributes telling the compiler of their calling convention.
+When interfacing with a library written in C, it would typically look like this
+```nasm
+; file: math.mod
+
+@cdecl
+func add(int<64> a, int<64> b) -> int<64>
+```
+
+The `@cdecl` attribute tells the compiler to use the C calling convention when calling that function.
+
 # Source-based installation
 Golem presents an extremely far-reaching goal in the ability for any end-user to compile a project from source with minimal hassle.
 

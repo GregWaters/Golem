@@ -39,7 +39,7 @@ The maximum value for `N` is implementation defined, but will throw an error if 
 Originally, these values were required to be powers of two, but after working with the `_BitInt` type in C23, I really do think that it's unhealthy for the language as a whole to [assume that programmers don't know what they're doing](https://en.wikipedia.org/wiki/Rust_(programming_language)).
 
 # The `data` Type
-Every literal in Golem is given a type, due to the semantics of arithmetic evaluation within the language. However, **all** literals have one unified type, and that type is named `data` - the type for the typeless.
+Every literal in Golem is given a type, due to the semantics of arithmetic evaluation within the language. However, **all** literals have one unified type, and that type is named `data` - a byte-type for the typeless.
 
 Data is everywhere in the Golem language. However, it's even more omnipresent than you'd think, even after reading up on the 'Representing data' section.
 Strings are an array of bytes with `0x00` byte at the end to signal termination. It is important to remember that **this is all just an array of bytes**. Under the hood, a string is stored similarly to the code block below.
@@ -66,3 +66,15 @@ char ch
 
 where I could call `print_char` with any single byte, or with any non-explicit type, and interpret the value as a character. Unlike in C, you can create array literals without assigning them to a variable.
 These literals may be stored in the `.data` section or the `.text` section, depending on the size and architecture of the compile target.
+
+Here's an example of `data` being used correctly.
+
+```nasm
+func bswap16 -> data<16>
+data<16> input
+{
+    return ((input & 0x00FF) << 8) | ((input & 0xFF00) >> 8)
+}
+```
+
+Sending/receiving type-agnostic data is invaluable in many different scenarios, like memory allocation and computer networking.

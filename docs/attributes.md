@@ -20,7 +20,8 @@ If a function **does** meet these requirements, the compiler is allowed to do a 
 
 ```python
 @pure
-func low_byte(int<32> n) -> int<32>
+func low_byte -> int<32>
+int<32> n
 {
     ; Zero all bytes except lowest
     return n & 0x000000FF
@@ -41,7 +42,8 @@ func main() -> int<32>
 As you may have guessed, `main` can automatically be optimized to
 ```python
 @pure
-func low_byte(int<32> n) -> int<32>
+func low_byte -> int<32>
+int<32> n
 {
     ; Zero all bytes except lowest
     return n & 0x000000FF

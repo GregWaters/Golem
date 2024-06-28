@@ -62,13 +62,17 @@ This allows for each call to be optimized to fit the current use case.
 The inline attribute also allows for compile-time type information, as it is a guarantee, not a hint.
 If a function cannot be inlined, a compile-time error will be thrown.
 
-`@view` (variables) - Treat the variable as a constant value. The variable must be initialized with a value, and that value must known at compile-time.
-If an attempt is made to assign to a `@view` variable, a compile-time error is thrown.
+`@const` (variables) - Treat the variable as a constant value. The variable must be initialized with a value, and if that value can be evaluated at compile-time, the variable may be optimized away entirely.
+If an attempt is made to assign to a `@const` variable, a compile-time error is thrown.
 
-`@explicit` (types) - Do not allow this type to be implicitly casted to or from. If a cast is desired, it must be done explicitly.
+`@constexpr` (variables) - Force the variable to be a constant expression. If the variable's value cannot be discerned at compile-time, the compiler should throw an error.
 
-`@atomic` (functions, types) - Atomic operations are operations are absolutely indivisible. For functions, this means that the function ***must*** be called sequentially, not in parallel.
-For types, this means that variable accesses are also to be done sequentially, and cannot be done in parallel.
+`@explicit` (variables, types) - Do not allow this type to be implicitly casted to or from. If a cast is desired, it must be done explicitly.
+Can also be specified for a singular variable declaration rather than a type.
+
+`@atomic` (functions, variables, types) - Atomic operations are operations are absolutely indivisible. For functions, this means that the function ***must*** be called sequentially, not in parallel.
+For variables, this also means accesses are also to be done sequentially, and cannot be done in parallel.
+For types, this means that all variable declared with the type have the `@atomic` attribute applied to them automatically.
 
 `@deprecated` (functions) - Raise a warning if the function is called (warning should include `@deprecated` attribute as reasoning). Typically used alongside `@cold` in library source code.
 
@@ -81,3 +85,4 @@ For types, this means that variable accesses are also to be done sequentially, a
 `@cdecl` (functions) - Use the C calling convention (used for interfacing with C libraries).
 
 `@fastcall` (functions) - Use the fastcall calling convention (used for interfacing with certain APIs).
+

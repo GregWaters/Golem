@@ -186,19 +186,105 @@ This allows recursive functions to effectively act as a callable loop block.
 Beyond this point, we will no longer cover optimizations that are unanimously used.
 In this section, we'll go over some optimizations that not even LLVM or GCC have implemented (as of Clang 18.1 and GCC 14.1, respectively).
 
-## Integers
+## Integral reduction of expressions
 Shown below are ways to simplify unknown expressions into simpler, or even known (constant) expressions.
 
 ### Associative property
-`(a + b) + c` == `a + (b + c)`
+`(a + b) + c` == `a + (b + c)`,
+
 `(a * b) * c` == `a * (b * c)`
 
 ### Commutative property
-`a + b` == `b + a`
+`a + b` == `b + a`,
+
 `a * b` == `b * a`
+
+`a | b` == `b | a`
+
+`a & b` == `b & a`
+
+`a ^ b` == `b ^ a`
 
 ### Distributive property
 `a * b + a * c` == `a * (b + c)`
 
-### Reduce number of instructions
-TODO
+### Determine result of undefined expressions
+`a & 0` == `0`,
+
+`a | -1` == `-1`,
+
+`a - a` == `0`,
+
+`0 / a` == `0`,
+
+`a ^ a` == `0`
+
+### Safe elimination of parts
+
+`a + 0` == `a`,
+
+`a - 0` == `a`,
+
+`a * 1` == `a`,
+
+`a / 1` == `a`,
+
+`a & -1` == `a`,
+
+`a | 0` == `a`,
+
+`a ^ 0` == `a`,
+
+`a << 0` == `a`,
+
+`a >> 0` == `a`
+
+### Determine individual bits in expression
+KEY:
+```
+0 == false (off)
+1 == true (on)
+? == undefined
+{a, b, c} == 8-bit integral types
+```
+
+`a & 0b00001111` == `0b????1111`
+
+`a << 4` == `0b????0000`
+
+## Expression pipelining
+This requires some basic knowledge of assembly semantics, but it isn't too terribly difficult.
+Essentially, this section takes advantage of CPU pipelining (out-of-order execution), increasing parallelism in deceptively effective ways.
+There's one catch: You can only perform out-of-order execution if the data does not *depend* on a previous expression.
+In other words, if I modify X in instruction 1 and try to execute instruction 2 that needs the value stored in X, I will create a *dependency*, and they cannot be executed out-of-order.
+To make an *immense* generalization, the less data dependencies you have in your generated assembly, the better.
+
+(Just an interesting thing that I noticed) GCC and Clang both have this optimization for their C compilers, but for some odd reason I am unable to generate pipelined code for anything beyond 4 operands.
+This is only when compiling for a generic microarchitecture (default).
+This may be a very important fact to look into, in case the designers of GCC and Clang are aware of something I have yet to discover.
+
+`r0 + r1 + r2 + r3`
+
+Unoptimized:
+```nasm
+; Executes first instruction
+add r0, r1
+
+; Executes second instruction
+add r0, r2
+
+; Executes final instruction
+add r0, r3
+```
+
+Optimized:
+```nasm
+; Executes the next two instructions in parallel
+add r0, r1
+add r2, r3
+
+; Wait for those instructions to finish, then execute this final instruction
+add r0, r2
+```
+
+Now, this obviously goes for all other kinds of arithmetic, but I need to finish this markdown file this year, so I'll leave it to the imagination. (Sarcasm aside -- I will finish this is people feel it is needed)

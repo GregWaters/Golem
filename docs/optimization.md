@@ -287,4 +287,15 @@ add r2, r3
 add r0, r2
 ```
 
-Now, this obviously goes for all other kinds of arithmetic, but I need to finish this markdown file this year, so I'll leave it to the imagination. (Sarcasm aside -- I will finish this is people feel it is needed)
+## On floating-point numbers
+Floats are difficult to truly optimize. When you defy the IEEE 754 standard in favor of speed, floats tend to act very strange, very quickly.
+While there are many ways to make floating point numbers calculate faster, these should not be employed if they change the resulting value.
+Optimizations which are dangerous in the ways described above will be noted as such.
+
+### Division by constant -> multiplication by reciprocal constant
+(Dangerous - it may not be possible to represent a reciprocal with exact precision, will change output in that case)
+
+Where `CV` is a constant value that is evaluated at compile-time 
+`a / CV` == `a * (1.0 / CV)`
+
+### TODO

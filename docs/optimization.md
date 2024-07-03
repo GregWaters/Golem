@@ -239,7 +239,20 @@ Shown below are ways to simplify unknown expressions into simpler, or even known
 
 `a >> 0` == `a`
 
-### Determine individual bits in expression
+### Value range analysis
+This section deserves a lot more space than I've allocated for it here, but here's the summary.
+Golem is fundamentally different than the vast majority of low-level languages, but that's not because of the syntax at all.
+The *bit-specifier* makes writing a compiler especially difficult to write, beyond a simple concept.
+Being able to change the precision at will -- beyond simple powers of two -- is incredibly difficult to create efficiently within the constraints of compiler design.
+
+*Value range analysis* is the compiler determining the possible values an undefined variable can hold.
+For instance a variable of type *bool* is quite easily optimized because it can only hold two possible values by definition.
+It's easy enough to assume that if a boolean variable says "I am not equal to false" it is equal to 'true'.
+
+However, we can take this further with value range analysis on integral types.
+Most easily shown in modulus operations, we can determine a range of possible values and know with absolute certainty the value of some bits in an expression.
+Below are some examples.
+
 KEY:
 ```
 0 == false (off)
@@ -247,6 +260,7 @@ KEY:
 ? == undefined
 {a, b, c} == 8-bit integral types
 ```
+`a % 2` == `0b0000000?`
 
 `a & 0b00001111` == `0b????1111`
 
@@ -297,5 +311,3 @@ Optimizations which are dangerous in the ways described above will be noted as s
 
 Where `CV` is a constant value that is evaluated at compile-time 
 `a / CV` == `a * (1.0 / CV)`
-
-### TODO

@@ -78,3 +78,18 @@ data<16> input
 ```
 
 Sending/receiving type-agnostic data is invaluable in many different scenarios, like memory allocation and computer networking.
+
+# Enumerations
+Declared with the `enum` type keyword, these are very similar to C enumerations. The most important part is the assumptions the compiler can make about the values of variables with this type.
+**All** enumerations define their own type, with an underlying type based on a simple formula that determines the smallest type capable of holding the values`uint< ceil(log2(ENUM_ELEMENTS)) >`. For instance, if I declared the following enum `color` as
+```nasm
+; Underlying type is 2-bit unsigned int
+; red { 0b00 }
+; blue { 0b01 }
+; green { 0b10 }
+enum color { red, blue, green }
+```
+
+`color` would be of type `uint<2>`, not able to be implicitly casted by definition.
+The compiler is able to safely assume that the value stored in a variable of enumeration type `color` will never exceed the bounds of the lowest and highest element respectively.
+Fair warning, however -- this assumption is discarded if the programmer casts away the type.

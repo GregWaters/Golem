@@ -9,8 +9,8 @@ Golem is for programmers who want low-level control and high-level abstraction w
 It compiles directly to native machine code, so you don't have to deal with any bytecode or code compression like in higher level languages.
 
 # Roadmap
-- Create outline of language (can change dynamically, as we have not created an implementation)
-  - Create the syntax (and shape it to be as intuitive as possible)
+- Create outline of language (can change dramatically, as we have not created an implementation)
+  - Create the syntax (and shape it to be as intuitive as possible before we're too far in to change it)
   - Clearly state what should happen in a given scenario. Alternatively, state that a given scenario must *never* happen, as undefined behavior will be invoked.
 
 - Create language implementation

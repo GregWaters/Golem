@@ -1,14 +1,14 @@
 # Overview
 This is a glossary of all tokens in the Golem language and their formal definitions -- it may change if new keywords (or even operators) are added.
-All operations are shown in C-adjacent pseudo-code.
 
 # Braces
 `{` - Left brace:
-- Begins a scope and is used for assignment.
+- Beginning of scope.
+- Marks beginning of assignment value.
 
 `}` - Right brace:
 - End of scope.
-- End of assignment statement.
+- End of assignment value.
 
 `[` - Left bracket:
 - Dereferences pointers with an optional offset value when used immediately to the right of a pointer expression. Any integer literal within this symbol and `]` is implicitly multiplied by the size, in bytes, of the type being pointed to.
@@ -116,16 +116,19 @@ Both operands must be of integral types.
 
 `null`
 - Can be specified in the place of a type in function return values to tell the compiler that the function does not return a value.
+
+`extern`
+- Used directly before the `func` keyword to tell the compiler that there is no code block beneath the parameter list (this must be done due to the lack of semicolons for explicit statement-termination), and that the linker will find the function and link it to the definition.
   
 # Other
 `,` - Comma:
 - Used as a separator in various places.
 
-`#` - Hashtag:
-- Tell the compiler to ignore all characters from this point until a newline is reached.
+`;` - Semicolon:
+- Tell the compiler to ignore all characters from this point until a newline is reached. If the newline is preceded by a backslash character (`\`), the newline will not terminate the statement.
 
 `@` - Attribute:
 - Used to turn an attribute specified immediately after the `@` symbol.
 
-`->` - Arrow:
+`->` - Arrowhead:
 - Used immediately after a function declaration to specify the return value.

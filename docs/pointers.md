@@ -1,5 +1,5 @@
 # Overview
-Pointers are a big part of any langauge, and often times those who don't know what pointers are [use them the most](https://en.wikipedia.org/wiki/Python_(programming_language)).
+Pointers are a big part of any language, and often times those who don't know what pointers are [use them the most](https://en.wikipedia.org/wiki/Python_(programming_language)).
 Pointers aren't black magic, however, they're just a way of storing a location in a variable so you can read/write at a specified location.
 We need pointers in C because we have no other way to represent strings or arrays, so we must embrace this amazing tool to write better code.
 
@@ -64,7 +64,7 @@ You cannot multiply pointers, nor can you divide them. It is nigh impossible to 
 With all this in mind, lets revisit that first example in Golem.
 
 ```cpp
-# A pointer to the function "square" that squares an integer before returning it
+; A pointer to the function "square" that squares an integer before returning it
 [func] funptr { square -> int }
 ```
 It is entirely subjective whether or not you prefer the previous syntax, but I believe that it's preferable if only due to the fact that `func` is a dedicated keyword for function declarations.

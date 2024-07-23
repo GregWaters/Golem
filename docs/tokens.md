@@ -11,7 +11,7 @@ This is a glossary of all tokens in the Golem language and their formal definiti
 - End of assignment value.
 
 `[` - Left bracket:
-- Dereferences pointers with an optional offset value when used immediately to the right of a pointer expression. Any integer literal within this symbol and `]` is implicitly multiplied by the size, in bytes, of the type being pointed to.
+- Dereferences pointers with an optional offset value when used immediately to the right of a pointer expression.
 
 `]` - Right bracket:
 - End of a pointer dereference.

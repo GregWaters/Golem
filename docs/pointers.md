@@ -9,15 +9,13 @@ For those of you who haven't used pointers, they are typically stored using the 
 A lot of C programmers are perfectly content with the syntax of C-style pointers, but when you need to actually declare something as such,
 ```cpp
 // A pointer to the function "square" that squares an integer before returning it
-int (*funptr)(int) = &square;
+int (*funptr)(int) = square;
 
 ```
 It is quite a hostile sight to many programmers, to the point of complete avoidance of this great feature!
 Function pointers enable great design patterns, but it's hard to get behind that fact with the subpar syntax.
 
-And, of course, there's always the 10000 year war over where you should put that asterisk in the mess of it all. I use C++ style, personally,
-but I believe that C-style is objectively correct given the potentially complex pointer syntax.
-
+And, of course, there's always the 10000 year war over where you should put that asterisk in the mess of it all.
 ```cpp
 // C-style (aligned to the right)
 int *make_array(int n);
@@ -41,7 +39,7 @@ int *x, *y;
 ```
 
 # Golem's Pointers
-In Golem, you are given brackets and an optional offset value that is multiplied by the size (in bytes) of the operand.
+In Golem, you are given brackets and an optional byte offset to dereference pointers.
 For visualization, that looks like this.
 
 ```cpp
@@ -51,11 +49,11 @@ func get_first_char -> char
     return [str]
 }
 
-func get_offset_char -> char
-[char] str
+func value_at -> char
+[int<32>] arr
 int<64> offset
 {
-    return [str + offset]
+    return [arr + offset * sizeof(int<32>)]
 }
 ```
 This syntax encourages dynamic thinking with pointers. Not only can you add an offset, but you can *subtract* an offset as well. Subtraction with pointers in play may seem dangerous, but it comes in handy with certain algorithms.
@@ -63,9 +61,9 @@ You cannot multiply pointers, nor can you divide them. It is nigh impossible to 
 
 With all this in mind, lets revisit that first example in Golem.
 
-```cpp
-; A pointer to the function "square" that squares an integer before returning it
-[func] funptr { square -> int }
+```nasm
+; Declare a function that holds the address of a function named 'square' which has its return value interpreted as an integer
+func funptr { square -> int }
 ```
 It is entirely subjective whether or not you prefer the previous syntax, but I believe that it's preferable if only due to the fact that `func` is a dedicated keyword for function declarations.
 That's pretty much it in regards to pointers in Golem!

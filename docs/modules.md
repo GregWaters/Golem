@@ -26,4 +26,9 @@ func main() -> int
 
 
 # Internals
-(To be decided)
+All of Golem's modules will be treated as namespaces, as stated beforehand. The internals change things up a bit in semantics. When a compiler finds an identifier, it will first look for it in the current translation unit.
+If it is not found, it results in an error, but if the identifier is followed by the `.` operator, the identifier will be considered a namespace invokation.
+When namespaces are invoked, the compiler will then look at the set of currently imported modules to try and find which namespace matches the name of the imported module.
+When this name is found, it opens the file to search for a valid declaration. If it is found, yay! If not, throw an error.
+
+This simple system will greatly improve compilation times when refined. Using smart data structures, the complexity will also lessen.

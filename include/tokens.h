@@ -40,6 +40,7 @@ enum token
     AT,      // @
     IDENT,   // User-defined name
     COMMA,   // ,
+    DOT,     // .
 
     // Literals
     INTEGER_LIT, // 42

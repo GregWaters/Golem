@@ -1,3 +1,3 @@
 all:
 	mkdir -p bin/
-	$(CC) src/*.c -Iinclude -O2 -o bin/golem
+	$(CC) src/*.c -O2 -o bin/golem

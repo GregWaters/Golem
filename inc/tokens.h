@@ -38,7 +38,7 @@ enum token
     // Syntax
     HASHTAG, // #
     AT,      // @
-    IDENT,   // User-defined name
+    IDENT,   // User-defined
     COMMA,   // ,
     DOT,     // .
 

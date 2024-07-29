@@ -5,18 +5,24 @@ Modules are similar to libraries, but more extensible for both sides of the deve
 # Advantages over C-style includes
 
 - Effective removal of identifier collisions within modules
-
-  if a collision occurs (a function is defined that has the same name as another), the `as` keyword allows you to effectively change the name of every function included.
+if a collision occurs (a function is defined that has the same name as another), the `as` keyword allows you to effectively change the name of every function included.
 For example, say you are writing a program that contains two math libraries, but they both define `sqrt()`. You can easily solve this collision using `as` as such.
+
+- Compilation speed
+Parsing function signatures is a lot faster for a compiler than including an entire file into source code.
+Compilation speed may increase as a result of this.
+
+- Less RAM usage
+Because we can store an entire C header as a set of function signatures, it is much easier to reduce RAM usage by simply not including the file within our own.
 
 ```python
 include <math.mod> as math
 include <geometry.mod> as geo
 
-func main() -> int
+func main -> int<32>
 {
     int<32> n { 16 }
-    if (math.sqrt(n) == geo.sqrt(n))
+    if (math.sqrt n == geo.sqrt n)
         return 0
     else
         return 1
@@ -32,3 +38,6 @@ When namespaces are invoked, the compiler will then look at the set of currently
 When this name is found, it opens the file to search for a valid declaration. If it is found, yay! If not, throw an error.
 
 This simple system will greatly improve compilation times when refined. Using smart data structures, the complexity will also lessen.
+
+# Syntax
+To declare a file to be a module, the file's name should end with `.mod` to avoid confusion. When including any file with the `module` keyword (and optionally `as`), it is treated and interpreted as a module.

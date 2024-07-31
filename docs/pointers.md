@@ -39,24 +39,34 @@ int *x, *y;
 ```
 
 # Golem's Pointers
-In Golem, you are given brackets and an optional byte offset to dereference pointers.
+Within the Golem language, you are given nasm-style brackets and an optional byte offset to dereference pointers.
 For visualization, that looks like this.
 
 ```cpp
-func get_first_char -> char
-[char] str
+func get_first_char([char] str) -> char
 {
     return [str]
 }
 
-func value_at -> char
-[int<32>] arr
+func byte_at -> char
+; type does not matter here, we can use a data pointer with the same size as a byte
+[data] arr
 int<64> offset
 {
-    return [arr + offset * sizeof(int<32>)]
+    return [ arr + offset ]
 }
 ```
-This syntax encourages dynamic thinking with pointers. Not only can you add an offset, but you can *subtract* an offset as well. Subtraction with pointers in play may seem dangerous, but it comes in handy with certain algorithms.
+
+In C, this is a bit less optimal, but still entirely passable
+```C
+unsigned char byte_at(void *arr, int64_t offset)
+{
+    return *(char *) arr + offset; 
+}
+```
+
+This syntax encourages dynamic thinking with pointers.
+Not only can you add an offset, but you can *subtract* an offset as well.
 You cannot multiply pointers, nor can you divide them. It is nigh impossible to get any use out of pointer multiplication, division, or most mathematical operations outside of adding/subtracting an offset.
 
 With all this in mind, lets revisit that first example in Golem.

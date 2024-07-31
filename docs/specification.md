@@ -1,6 +1,3 @@
-# Credits
-- Greg Waters, 2024
-
 # Overview (why would I use Golem?)
 The largest part of learning a language is how it will help you make what you want to make.
 Golem has been designed from the ground up to benefit all kinds of programmers. Unless you do web-dev, but you did that to yourself.
@@ -21,8 +18,6 @@ This means that we can fully analyze the code from all angles to see the best wa
 
 Of course, this has clear limits. For instance, we don't want to [inline every function](https://en.wikipedia.org/wiki/C%2B%2B_classes) as that would massively bloat the resulting machine code,
 nor would we want to [statically link everything for the sake of compatibility](https://en.wikipedia.org/wiki/Go_(programming_language)).
-
-It is highly recommended that you read [the inline guide](https://github.com/GregWaters/Golem/blob/master/docs/inline.md) before inlining every function in your hypothetical codebase.
 
 # Comments
 Comments last until the next occurrence of a newline character, and begin with the `;` character. This was originally planned to be similar to Python and Bash, with `#` as the designated start of a comment, but I feel that it is much better to kill two birds with one stone. With semicolons as the comment character, code like

@@ -18,10 +18,9 @@ If a function **does** meet these requirements, the compiler is allowed to do a 
 - Replace a value in the generated machine code with the result of the evaluation
 - Evaluate the function at compile-time
 
-```python
+```cpp
 @pure
-func low_byte -> int<32>
-int<32> n
+func low_byte(int<32> n) -> int<32>
 {
     ; Zero all bytes except lowest
     return n & 0x000000FF
@@ -40,10 +39,9 @@ func main() -> int<32>
 }
 ```
 As you may have guessed, `main` can automatically be optimized to
-```python
+```cpp
 @pure
-func low_byte -> int<32>
-int<32> n
+func low_byte(int<32> n) -> int<32>
 {
     ; Zero all bytes except lowest
     return n & 0x000000FF
@@ -55,12 +53,6 @@ func main() -> int<32>
 }
 ```
 and only one call to the indeterminate function is made.
-
-`@inline` (functions) Tell the compiler that the function call is to be eliminated entirely, and the function's code should replace it.
-This allows for each call to be optimized to fit the current use case.
-
-The inline attribute also allows for compile-time type information, as it is a guarantee, not a hint.
-If a function cannot be inlined, a compile-time error will be thrown.
 
 `@const` (variables) - Treat the variable as a constant value. The variable must be initialized with a value, and if that value can be evaluated at compile-time, the variable may be optimized away entirely.
 If an attempt is made to assign to a `@const` variable, a compile-time error is thrown.

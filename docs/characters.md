@@ -9,4 +9,3 @@ which casts each 8-bit character to a 16-bit wide-character type (wchar) and all
 
 Interestingly, the 'H' in that string is actually a Unicode character that is pixel-to-pixel identical to a standard 'H', but it will be displayed incorrectly if used in any print functions that take in UTF-8 strings.
 This is why all character types are marked with the `@explicit` attribute that warns the programmer when an implicit cast is performed to or from the type. Type-safety is very useful when dealing with UTF-8 and Unicode APIs.
-

@@ -1,1 +1,2 @@
-# (empty for now)
+# `macro io.print(...)`
+

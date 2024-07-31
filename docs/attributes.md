@@ -56,12 +56,6 @@ func main() -> int<32>
 ```
 and only one call to the indeterminate function is made.
 
-`@inline` (functions) Tell the compiler that the function call is to be eliminated entirely, and the function's code should replace it.
-This allows for each call to be optimized to fit the current use case.
-
-The inline attribute also allows for compile-time type information, as it is a guarantee, not a hint.
-If a function cannot be inlined, a compile-time error will be thrown.
-
 `@const` (variables) - Treat the variable as a constant value. The variable must be initialized with a value, and if that value can be evaluated at compile-time, the variable may be optimized away entirely.
 If an attempt is made to assign to a `@const` variable, a compile-time error is thrown.
 
@@ -76,11 +70,11 @@ For types, this means that all variable declared with the type have the `@atomic
 
 `@deprecated` (functions) - Raise a warning if the function is called (warning should include `@deprecated` attribute as reasoning). Typically used alongside `@cold` in library source code.
 
-`@hot` (functions) - Tell the compiler that this function is called often. Effect on code-generation is implementation-defined.
+`@hot` (functions) - Tell the compiler that this function is called often. Effect on code generation is entirely implementation-defined.
 
-`@cold` (functions) - Tell the compiler that this function is ***not*** called often. Effect on code-generation is implementation-defined.
+`@cold` (functions) - Tell the compiler that this function is ***not*** called often. Effect on code generation is entirely implementation-defined.
 
-`@local` (functions) - Keep this function within the bounds of this source file.
+`@local` (functions) - Keep this function within the bounds of this source file (translation unit).
 
 `@cdecl` (functions) - Use the C calling convention (used for interfacing with C libraries).
 

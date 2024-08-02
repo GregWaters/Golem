@@ -5,9 +5,11 @@ Macros are unique in their ability to optimize each call for the task at hand,
 That means the following actions are allowed:
 - Using `sizeof()` on arguments
 - Using `typeof()` on arguments
-- Using function result in a constant expression (macro must be pure!)
+- Using function result in a constant expression (macro must be preceded by `@pure`)
 
-Examples of functions that would be good macros:
+Additionally, macros cannot have external linkage by definition.
+
+Examples of macros:
 ```cpp
 macro is_digit(char c) -> bool
 {

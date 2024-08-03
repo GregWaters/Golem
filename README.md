@@ -23,7 +23,7 @@ It compiles directly to native machine code, so you don't have to deal with any 
 If you see any grammatical errors, inconsistencies, or things that just don't seem right within the documentation or code, feel free to create a pull request!
 This project will only thrive if others feel it is worthy of their time.
 
-## (No known bugs as of 7/31/24)
+## (No known issues as of 3/8/2024)
 
 # More information
 The `docs/` directory holds useful information on the specifics of this language. Read the specification [here](https://github.com/GregWaters/Golem/blob/master/docs/specification.md).

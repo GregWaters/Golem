@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "../inc/file.h"
-#include "../inc/tokenizer.h"
+#include "../inc/lexer.h"
 
 static void usage_exit(int exit_code)
 {

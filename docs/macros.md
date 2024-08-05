@@ -6,6 +6,7 @@ That means the following actions are allowed:
 - Using `sizeof()` on arguments
 - Using `typeof()` on arguments
 - Using function result in a constant expression (macro must be preceded by `@pure`)
+- Returning values allocated on the stack
 
 Additionally, macros cannot have external linkage by definition.
 

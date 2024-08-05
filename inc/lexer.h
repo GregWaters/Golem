@@ -1,6 +1,6 @@
 #pragma once
 
-enum token
+enum token_desc
 {
     // Signal tokens
     EOS, // End of token stream
@@ -41,18 +41,28 @@ enum token
     IDENT,   // User-defined
     COMMA,   // ,
     DOT,     // .
-
-    // Literals
-    INTEGER_LIT, // 42
-    FLOAT_LIT,   // 3.14
-    STRING_LIT,  // "Hello, world!"
-    CHAR_LIT,    // '!'
+    LITERAL, // Literals
 
     // Keywords
     K_INT,      // Integer variable declaration
     K_FLOAT,    // Floating-point variable declaration
     K_CLASS,    // Class declaration
     K_FUNC,     // Function declaration
+    K_MACRO,    // Macro declaration
+    K_TYPE,     // Type definition
     K_NULL,     // Representation of 'nothing'
 };
 
+struct
+{
+    // Token description
+    const char *literal_start;
+    const char *literal_end;
+
+    // Location
+    size_t line;
+    size_t column;
+
+    // Actual token type
+    enum token_desc type;
+} token;

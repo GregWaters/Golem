@@ -26,4 +26,4 @@ macro io.print(str string) -> int
 `string`: a character pointer holding the address of the first character and immediately following the `uint<32>` length value of the string
 
 ## RETURN VALUE
-The number of characters output, -1 if an error was encountered.
+The number of characters output or `-1` if an error was encountered.

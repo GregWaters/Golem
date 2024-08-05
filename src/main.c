@@ -1,14 +1,27 @@
-#include "../inc/modules.h"
-#include <assert.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+
+#include "../inc/file.h"
+#include "../inc/tokenizer.h"
+
+static void usage_exit(int exit_code)
+{
+    fputs("usage: golem <file>\n", stderr);
+    exit(exit_code);
+}
 
 int main(int argc, char **argv)
 {
     if (argc < 2)
-        return -1;
+        usage_exit(1);
 
+    file.name = argv[1];
+    file.ptr = fopen(file.name, "r");
+        
+    if (!file.ptr)
+        fprintf(stderr, "fopen(): Could not open file '%s' - %s", file.name, strerror(errno));
     
-
-    mod_t module_test = module_open(argv[1]);
-
-    printf("Successfully opened module '%s', exiting", module_test.name);
+    // Lexer goes here!
 }

@@ -1,68 +1,68 @@
 #pragma once
 
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+
 enum token_desc
 {
     // Signal tokens
-    EOS, // End of token stream
+    TK_END, // End of token stream
 
-    // Braces
-    LEFT_BRACE,  // {
-    RIGHT_BRACE, // }
-    LEFT_BRACK,  // [
-    RIGHT_BRACK, // ]
-    LEFT_PAREN,  // (
-    RIGHT_PAREN, // )
+    // Punctuation
+    TK_LBRACE, // {
+    TK_RBRACE, // }
+    TK_LBRACK, // [
+    TK_RBRACK, // ]
+    TK_LPAREN, // (
+    TK_RPAREN, // )
+    TK_PLUS,     // +
+    TK_MINUS,    // -
+    TK_ARROW,    // ->
+    TK_ASTERISK, // *
+    TK_SLASH,    // /
+    TK_MODULO,   // %
+    TK_NOT,    // ~
+    TK_AND,    // &
+    TK_OR,     // |
+    TK_XOR,    // ^
+    TK_LSHIFT, // <<
+    TK_RSHIFT, // >>
+    TK_EQUALS,     // =
+    TK_GREATER,    // >
+    TK_GREATER_EQ, // >=
+    TK_LESS,       // <
+    TK_LESS_EQ,    // <=
+    TK_HASHTAG, // #
+    TK_AT,      // @
+    TK_COMMA,   // ,
+    TK_DOT,     // .
+    TK_GRAVE,   // `
 
-    // Arithmetic
-    PLUS,     // +
-    MINUS,    // -
-    ASTERISK, // *
-    FWDSLASH, // /
-    MODULUS,  // %
-
-    // Bitwise
-    NOT,    // ~
-    AND,    // &
-    OR,     // |
-    XOR,    // ^
-    LSHIFT, // <<
-    RSHIFT, // >>
-
-    // Boolean
-    EQUALS,     // =
-    GREATER,    // >
-    GREATER_EQ, // >=
-    LESS,       // <
-    LESS_EQ,    // <=
-    
-    // Syntax
-    HASHTAG, // #
-    AT,      // @
-    IDENT,   // User-defined
-    COMMA,   // ,
-    DOT,     // .
-    LITERAL, // Literals
+    // Literals
+    TK_STRING,  // "
+    TK_CHAR,    // '
+    TK_NUMBER,  // 0123456789
 
     // Keywords
-    K_INT,      // Integer variable declaration
-    K_FLOAT,    // Floating-point variable declaration
-    K_CLASS,    // Class declaration
-    K_FUNC,     // Function declaration
-    K_MACRO,    // Macro declaration
-    K_TYPE,     // Type definition
-    K_NULL,     // Representation of 'nothing'
+    KW_IF,
+    KW_INT,     // Integer variable declaration
+    KW_FLOAT,   // Floating-point variable declaration
+    KW_CLASS,   // Class declaration
+    KW_FUNC,    // Function declaration
+    KW_MACRO,   // Macro declaration
+    KW_TYPE,    // Type definition
+    KW_NULL,    // Representation of 'nothing'
+
+    // Identifiers
+    TK_IDENT,    // User-defined
 };
 
-struct
+struct Token
 {
-    // Token description
-    const char *literal_start;
-    const char *literal_end;
-
-    // Location
-    size_t line;
-    size_t column;
-
-    // Actual token type
+    long offset, len;
     enum token_desc type;
-} token;
+};
+
+struct Token tk_next(FILE *stream);
+struct Token tk_prev(FILE *stream);

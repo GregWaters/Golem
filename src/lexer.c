@@ -1,5 +1,4 @@
 #include "../inc/lexer.h"
-#include "../inc/file.h"
 
 struct Token tk_next(FILE *stream)
 {

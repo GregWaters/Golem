@@ -3,17 +3,17 @@
 #include <errno.h>
 #include <string.h>
 
-#include "../inc/file.h"
 #include "../inc/lexer.h"
 
 static void token_dump(FILE *stream);
 
-static void usage_exit(int exit_code);
-
 int main(int argc, char **argv)
 {
     if (argc < 2)
-        usage_exit(1);
+    {
+        fputs("usage: golem <file>\n", stderr);
+        exit(1);
+    }
 
     FILE *stream = fopen(argv[1], "r");
         
@@ -23,16 +23,10 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-
     // Begin lexing file
     token_dump(stream);
 }
 
-static void usage_exit(int exit_code)
-{
-    fputs("usage: golem <file>\n", stderr);
-    exit(exit_code);
-}
 
 static void token_dump(FILE *stream)
 {

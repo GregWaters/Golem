@@ -7,6 +7,7 @@
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
     #include <sys/mman.h>
+    #include <unistd.h>
 #elif defined(_WIN32)
     #include <io.h>
 #endif
@@ -16,10 +17,13 @@ struct File
     // The name of our file
     const char *name;
 
-    // Beginning of address space (will be moved)
+    // Beginning of address space
+    char *start;
+    
+    // Movable pointer to current position
     char *contents;
 
-    // end of address space
+    // End of address space
     char *end;
 
     // Line and column, used for error reporting

@@ -1,27 +1,38 @@
 #include "../inc/lexer.h"
 
 // All of this needs to be rewritten to adapt to file changes!
-
 struct Token tk_next(struct File *file)
 {
-    // Skip whitespace and keep track of position
-    const char *start = file->contents;
     struct Token token;
+    char c = *file->contents;
 
+    // Skip whitespace and keep track of position
     while (1)
     {
-        char cur = *file->contents;
+        if (c == ' ')
+            ++file->column;
+        else if (c == '\t')
+            ++file->column;
+	else if (c == '\n')
+	{
+	    file->column = 0;
+	    ++file->line;
+	}
+	else
+	    break;
+	
+	c = *++file->contents;
 
-        if (cur == ' ')
-            ++file->column;
-        else if (cur == '\t')
-            ++file->column;
+	if (file->contents == file->end)
+	{
+	    token.type = TK_END;
+            return token;
+	}
     }
 
+    // Run switch on first significant character in stream
     switch (c)
     {
-        case EOF:
-            return (struct Token) {ftell(stream), 0, TK_END};
         case '{':
             token.type = TK_LBRACE;
             break;
@@ -57,14 +68,14 @@ struct Token tk_next(struct File *file)
             break;
         case '-':
         {
-            c = getc(stream);
+	    c = *++file->contents;
             if (c == '>')
             {
                 token.type = TK_ARROW;
                 break;
             }
 
-            ungetc(c, stream);
+            --file->contents;
             token.type = TK_MINUS;
             break;
         }
@@ -94,7 +105,7 @@ struct Token tk_next(struct File *file)
             break;
         case '<':
         {
-            c = getc(stream);
+	    c = *++file->contents;
 
             if (c == '=')
                 token.type = TK_LESS_EQ;
@@ -103,13 +114,14 @@ struct Token tk_next(struct File *file)
             else
             {
                 token.type = TK_LESS;
-                ungetc(c, stream);
+                --file->contents;
             }
             break;
         }
         case '>':
         {
-            c = getc(stream);
+	    c = *++file->contents;
+
             if (c == '=')
                 token.type = TK_GREATER_EQ;
             else if (c == '>')
@@ -117,7 +129,7 @@ struct Token tk_next(struct File *file)
             else
             {
                 token.type = TK_GREATER;
-                ungetc(c, stream);
+                --file->contents;
             }
             break;
         }
@@ -136,9 +148,9 @@ struct Token tk_next(struct File *file)
             token.type = TK_NUMBER;
             do
             {
-                c = getc(stream);
+                c = *++file->contents;
             } while (isdigit(c));
-            ungetc(c, stream);
+            --file->contents;
             break;
         }
 
@@ -147,14 +159,13 @@ struct Token tk_next(struct File *file)
             token.type = TK_CHAR;
             do
             {
-                c = getc(stream);
-                if (c == EOF)
+                c = *++file->contents;
+                if (file->contents == file->end)
                 {
                     fputs("Error: Unterminated character literal\n", stderr);
                     exit(1);
                 }
             } while (c != '\'');
-            ungetc(c, stream);
             break;
         }
 
@@ -163,14 +174,13 @@ struct Token tk_next(struct File *file)
             token.type = TK_STRING;
             do
             {
-                c = getc(stream);
-                if (c == EOF)
+                if (++file->contents == file->end)
                 {
+		    c = *file->contents;
                     fputs("Error: unterminated string literal\n", stderr);
                     exit(1);
                 }
             } while (c != '"');
-            ungetc(c, stream);
             break;
         }
 
@@ -180,17 +190,20 @@ struct Token tk_next(struct File *file)
             token.type = TK_IDENT;
             do
             {
-                c = getc(stream);
-            } while ((isalpha(c) || c == '_') && c != EOF);
-            ungetc(c, stream);
+                c = *++file->contents;
+            } while ((isalpha(c) || c == '_') && file->contents != file->end);
+	    --file->contents;
         }
     }
-
-    token.len = (ftell(stream) - token.offset) + 1;
+    
+    token.end = file->contents;
+    
+    // Make sure the contents pointer is pointing to the character immediately after the token
+    ++file->contents;
     return token;
 }
 
-struct Token tk_prev(FILE *stream)
+struct Token tk_prev(struct File *file)
 {
     struct Token token;
 

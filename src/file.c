@@ -13,10 +13,12 @@ bool file_init(struct File *file, const char *filename)
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
         // Make file->contents point to a virtual address space with our file's data
         // Prefault pages with the MAP_POPULATE flag, we must read the entire file anyway
-        file->contents = (char *) mmap(NULL, statbuf.st_size, PROT_READ, MAP_POPULATE, fd, 0);
-        
-        // Hint to the kernel that we're going to be reading sequentially (commented out for now)
-        // madvise(file->contents, statbuf.st_size, MADV_SEQUENTIAL);
+        file->start = (char *) mmap(NULL, statbuf.st_size, PROT_READ, MAP_POPULATE | MAP_PRIVATE, fd, 0);
+        if (file->start == (char *) -1)
+	    return true;
+
+        // Hint to the kernel that we're going to be reading sequentially
+        madvise(file->contents, statbuf.st_size, MADV_SEQUENTIAL);
 
 #else
     // A more standard way of performing mmap
@@ -24,6 +26,20 @@ bool file_init(struct File *file, const char *filename)
     read(fd, file->contents, statbuf.st_size);
 #endif
 
+    close(fd);
+
+    // Initialize the contents to the start
+    file->contents = file->start;
     file->end = file->contents + statbuf.st_size;
+    return false;
+}
+
+bool file_exit(struct File *file)
+{
+#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+    return munmap(file->start, file->end - file->start);
+#endif
+
+    free(file->start);
     return false;
 }

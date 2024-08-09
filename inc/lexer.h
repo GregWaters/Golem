@@ -1,8 +1,7 @@
 #pragma once
 
-#include <stdio.h>
 #include <ctype.h>
-#include <stdlib.h>
+#include <stdio.h>
 
 #include "file.h"
 
@@ -62,7 +61,7 @@ enum token_desc
 
 struct Token
 {
-    char *literal;
+    char *literal, *end;
     enum token_desc type;
 };
 

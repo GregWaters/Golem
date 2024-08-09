@@ -4,35 +4,31 @@
 #include <string.h>
 
 #include "../inc/lexer.h"
+#include "../inc/file.h"
 
-static void token_dump(FILE *stream);
+static void token_dump(struct File *file);
 
 int main(int argc, char **argv)
 {
-    if (argc < 2)
+    if (argc != 2)
     {
         fputs("usage: golem <file>\n", stderr);
         exit(1);
     }
 
-    FILE *stream = fopen(argv[1], "r");
-        
-    if (!stream)
+    struct File source;
+    if (file_init(&source, argv[1]))
     {
-        fprintf(stderr, "fopen(): Could not open file '%s': %s", argv[1], strerror(errno));
-        exit(1);
+    	perror("file_init()");
+	exit(1);
     }
 
-    // Begin lexing file
-    token_dump(stream);
+    token_dump(&source);
 }
 
-
-static void token_dump(FILE *stream)
+static void token_dump(struct File *file)
 {
-    struct Token tok;
-
-    static const char map[TK_IDENT + 1][8] = 
+    static const char *map[TK_IDENT + 1] = 
     {
         [TK_END] = "<EOF>",
         [TK_LBRACE] = "{",
@@ -69,9 +65,12 @@ static void token_dump(FILE *stream)
         [TK_IDENT] = "<IDENT>"
     };
 
+    struct Token tok;
+
     do
     {
-        tok = tk_next(stream);
+        tok = tk_next(file);
         printf("%s ", map[tok.type]);
     } while (tok.type != TK_END);
+    putchar('\n');
 }

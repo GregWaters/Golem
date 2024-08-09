@@ -4,6 +4,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+#include "file.h"
+
 enum token_desc
 {
     // Signal tokens
@@ -60,9 +62,9 @@ enum token_desc
 
 struct Token
 {
-    long offset, len;
+    char *literal;
     enum token_desc type;
 };
 
-struct Token tk_next(FILE *stream);
-struct Token tk_prev(FILE *stream);
+struct Token tk_next(struct File *file);
+struct Token tk_prev(struct File *file);

@@ -1,1 +1,2 @@
-#
+#include "../inc/symtab.h"
+

@@ -1,18 +1,22 @@
 #include "../inc/lexer.h"
 
-struct Token tk_next(FILE *stream)
+// All of this needs to be rewritten to adapt to file changes!
+
+struct Token tk_next(struct File *file)
 {
-    int c;
+    // Skip whitespace and keep track of position
+    const char *start = file->contents;
+    struct Token token;
 
-    // Set 'c' and skip whitespace
-    do
-        c = getc(stream);
-    while (isspace(c));
-
-    struct Token token =
+    while (1)
     {
-        .offset = ftell(stream)
-    };
+        char cur = *file->contents;
+
+        if (cur == ' ')
+            ++file->column;
+        else if (cur == '\t')
+            ++file->column;
+    }
 
     switch (c)
     {

@@ -22,8 +22,8 @@ bool file_init(struct File *file, const char *filename)
 
 #else
     // A more standard way of performing mmap
-    file->contents = (char *) malloc(statbuf.st_size);
-    read(fd, file->contents, statbuf.st_size);
+    file->start = (char *) malloc(statbuf.st_size);
+    read(fd, file->start, statbuf.st_size);
 #endif
 
     close(fd);

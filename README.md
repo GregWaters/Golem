@@ -4,9 +4,10 @@ It draws inspiration from the best parts of many different languages, and levera
 I am currently working on a compiler for this programming language, but it will likely take a few years if I want to do it alone.
 This is mostly a proof of concept, of course, because I will have a tough time holding a torch to entire teams of people who work on compilers daily.
 
-# Who is it for?
-Golem is for programmers who want low-level control and high-level abstraction without compromise. If you write C/C++, it will most likely be incredibly simple to learn and understand.
-It compiles directly to native machine code, so you don't have to deal with any bytecode or code compression like in higher level languages.
+# What is it for?
+Golem is made for absolutely massive projects, hence the name. Every part of the language was designed with performance and scalability in mind,
+because you need to be able to compile fast if you want to debug fast.
+The standard library can be implemented safely without *any* runtime libraries (this is not a cheap trick, either -- we interface directly with the system's kernel and strip back all the layers that cause blocking in a pipeline).
 
 # Roadmap
 - Create outline of language (can change dramatically, as we have not created an implementation)

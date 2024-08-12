@@ -4,10 +4,10 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdbool.h>
+#include <unistd.h>
 
-#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+#if defined (__linux__) || (defined (__APPLE__) && defined (__MACH__))
     #include <sys/mman.h>
-    #include <unistd.h>
 #elif defined(_WIN32)
     #include <io.h>
 #endif

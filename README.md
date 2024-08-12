@@ -14,7 +14,7 @@ It compiles directly to native machine code, so you don't have to deal with any 
   - Clearly state what should happen in a given scenario. Alternatively, state that a given scenario must *never* happen, as undefined behavior will be invoked.
 
 - Create language implementation
-  - Lexer
+  - ~~Lexer~~
   - Parser
   - Semantic Analyzer
   - Generate LLVM IR

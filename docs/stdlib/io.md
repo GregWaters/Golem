@@ -1,29 +1,42 @@
 # Input/output module
 
+## io.open
+### Definition
+`macro open([char] filename`
 
-## SYNOPSIS
-```nasm
-export <io>
-
-macro io.print(str string) -> int
-{
-    ; implementation defined
-}
+## io.read
+### Definition
+```
+macro read
+(
+    c_uint fd,
+    [@const char] buf,
+    c_size_t count
+) -> c_ssize_t
 ```
 
-## POSSIBLE CODE GENERATED
-```nasm
-; x86_64 Linux, netwide assembler
-; `string` is stored in rsi in this example
-; has no label due to being defined as a macro
-    mov edx, [rsi - 4]
-    mov eax, 1
-    mov edi, 1
-    syscall
+### Inputs
+fd - the file descriptor to read from
+buf - the string of characters to read from
+count - number of bytes to read
+
+### Returns
+The number of characters read or `-1` if an error was encountered.
+
+## io.write
+### Definition
 ```
+macro write
+(
+    c_uint fd,
+    [char] buf,
+    c_size_t count
+) -> c_ssize_t
+```
+### Inputs
+fd - the file descriptor to write to
+buf - the string of characters to write to
+count - number of bytes to write
 
-## INPUT
-`string`: a character pointer holding the address of the first character and immediately following the `uint<32>` length value of the string
-
-## RETURN VALUE
-The number of characters output or `-1` if an error was encountered.
+### Returns
+The number of characters written or `-1` if an error was encountered.

@@ -2,7 +2,12 @@
 
 ## io.open
 ### Definition
-`macro open([char] filename`
+```
+macro open([char] filename, c_int flags)
+
+; optional parameter
+macro open([char] filename, c_int flags, int mode)
+```
 
 ## io.read
 ### Definition

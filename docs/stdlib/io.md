@@ -42,7 +42,9 @@ macro write
 ```
 ### Inputs
 fd - the file descriptor to write to
+
 buf - the string of characters to write to
+
 count - number of bytes to write
 
 ### Returns

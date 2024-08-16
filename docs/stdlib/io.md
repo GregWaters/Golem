@@ -22,7 +22,9 @@ macro read
 
 ### Inputs
 fd - the file descriptor to read from
+
 buf - the string of characters to read from
+
 count - number of bytes to read
 
 ### Returns
